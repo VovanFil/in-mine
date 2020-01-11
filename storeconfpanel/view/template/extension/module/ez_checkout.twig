@@ -1,0 +1,1989 @@
+{{ header }}
+{{ column_left }}
+<div id="content">
+    <div class="page-header">
+        <div class="container-fluid">
+            <div class="pull-right">
+                <button type="submit" form="form-ez-checkout" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+                <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a></div>
+            <h1>
+                {{ heading_title }}
+            </h1>
+            <ul class="breadcrumb">
+               
+					{% for breadcrumb in breadcrumbs %}
+                <li>
+                    <a href="{{ breadcrumb['href'] }}">
+                        {{ breadcrumb.text }}
+                    </a>
+                </li>
+				{% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        {% if error_warning %}
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+            {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+       {% endif %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-pencil"></i>
+                    {{ text_edit }}
+                </h3>
+            </div>
+            <div class="panel-body">
+                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-ez-checkout" class="form-horizontal">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab-general" data-toggle="tab">{{ text_main_settings }}</a></li>
+                        <li><a href="#tab-cart" data-toggle="tab">{{ entry_cart_status }}</a></li>
+                        <li><a href="#tab-user" data-toggle="tab">{{ entry_user_status }}</a></li>
+                        <li><a href="#tab-payment-address" data-toggle="tab">{{ entry_payment_address_status }}</a></li>
+                        <li><a href="#tab-shipping-address" data-toggle="tab">{{ entry_shipping_address_status }}</a></li>
+                        <li><a href="#tab-payment-method" data-toggle="tab">{{ entry_payment_method_status }}</a></li>
+                        <li><a href="#tab-shipping-method" data-toggle="tab">{{ entry_shipping_method_status }}</a></li>
+                        <li><a href="#tab-comment" data-toggle="tab">{{ entry_comment_status }}</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active fade in" id="tab-general">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="input-status">{{ entry_status }}</label>
+                                <div class="col-sm-10">
+                                    <select name="ez_checkout_status" id="input-status" class="form-control">
+                                        {% if ez_checkout_status %}
+                                        <option value="1" selected="selected">{{ text_enabled }}</option>
+                                        <option value="0">{{ text_disabled }}</option>
+                                       {% else %}
+                                        <option value="1">{{ text_enabled }}</option>
+                                        <option value="0" selected="selected">{{ text_disabled }}</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_cart_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_cart_status %} active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_cart_status %}
+                                            <input type="radio" name="ez_checkout_cart_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_cart_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_cart_status %} active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_cart_status %}
+                                            <input type="radio" name="ez_checkout_cart_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_cart_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-cart-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_cart_width" id="input-cart-width" class="form-control">
+                                        {% if ez_checkout_cart_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_cart_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_cart_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_cart_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-cart-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_cart_sort" id="input-cart-sort" class="form-control" value="{{ ez_checkout_cart_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_status %}
+                                            <input type="radio" name="ez_checkout_user_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_cart_status %}active {% endif %} " title="{{ text_disabled }}" disabled="disabled">
+                                            {{ action_disable }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_width" id="input-user-width" class="form-control">
+                                        {% if ez_checkout_user_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_sort" id="input-user-sort" class="form-control" value="{{ ez_checkout_user_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_payment_address_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_address_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_address_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_address_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_address_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_address_width" id="input-payment-address-width" class="form-control">
+                                        {% if ez_checkout_payment_address_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_address_sort" id="input-payment-address-sort" class="form-control" value="{{ ez_checkout_payment_address_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_shipping_address_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_address_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_address_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_address_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_address_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_address_width" id="input-shipping-address-width" class="form-control">
+                                        {% if ez_checkout_shipping_address_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_address_sort" id="input-shipping-address-sort" class="form-control" value="{{ ez_checkout_shipping_address_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_payment_method_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_method_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_method_status %}
+                                            <input type="radio" name="ez_checkout_payment_method_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_method_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_method_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_method_status %}
+                                            <input type="radio" name="ez_checkout_payment_method_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_method_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-method-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_method_width" id="input-payment-method-width" class="form-control">
+                                        {% if ez_checkout_payment_method_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_method_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_method_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_method_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-method-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_method_sort" id="input-payment-method-sort" class="form-control" value="{{ ez_checkout_payment_method_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_shipping_method_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_method_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_method_status %}
+                                            <input type="radio" name="ez_checkout_shipping_method_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_method_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_method_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_method_status %}
+                                            <input type="radio" name="ez_checkout_shipping_method_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_method_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-method-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_method_width" id="input-shipping-method-width" class="form-control">
+                                        {% if ez_checkout_shipping_method_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_method_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_method_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_method_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-method-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_method_sort" id="input-shipping-method-sort" class="form-control" value="{{ ez_checkout_shipping_method_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_comment_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_comment_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_comment_status %}
+                                            <input type="radio" name="ez_checkout_comment_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_comment_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_comment_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_comment_status %}
+                                            <input type="radio" name="ez_checkout_comment_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_comment_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-comment-width">{{ entry_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_comment_width" id="input-comment-width" class="form-control">
+                                        {% if ez_checkout_comment_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_comment_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_comment_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_comment_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-comment-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_comment_sort" id="input-comment-sort" class="form-control" value="{{ ez_checkout_comment_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group" id="user-agree">
+                                <label class="col-sm-2 control-label">{{ entry_agree_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_agree_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_agree_status %}
+                                            <input type="radio" name="ez_checkout_agree_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_agree_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_agree_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_agree_status %}
+                                            <input type="radio" name="ez_checkout_agree_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_agree_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-agree-default">{{ entry_default }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_agree_default" id="input-user-agree-default" class="form-control">
+                                        {% if ez_checkout_agree_default %}
+                                        <option value="1" selected="selected">{{ text_checked }}</option>
+                                       {% else %}
+                                        <option value="1">{{ text_checked }}</option>
+                                       {% endif %}
+                                        {% if not ez_checkout_agree_default %}
+                                        <option value="0" selected="selected">{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_confirm_status }}">{{ entry_confirm_status }}:</span></label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_confirm_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_confirm_status %}
+                                            <input type="radio" name="ez_checkout_confirm_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_confirm_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_confirm_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_confirm_status %}
+                                            <input type="radio" name="ez_checkout_confirm_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_confirm_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-confirm-trigger"><span data-toggle="tooltip" title="{{ help_confirm_trigger }}">{{ entry_trigger }}:</span></label>
+                                <div class="col-sm-5">
+                                    <input type="text" name="ez_checkout_confirm_trigger" id="input-confirm-trigger" class="form-control" value="{{ ez_checkout_confirm_trigger }}" min="0">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_confirm_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-confirm-trigger').attr('disabled', 'disabled');
+                                        } else {
+                                            $('#input-confirm-trigger').removeAttr('disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_confirm_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="input-order-button" class="col-sm-2 control-label">{{ entry_order_button  }}</label>
+                                <div class="col-sm-10">
+                                    <input type="text" id="input-order-button" name="ez_checkout_order_button" value="{{ ez_checkout_order_button }}" placeholder=">{{ entry_order_button  }}" class="form-control">
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div class="tab-pane fade" id="tab-cart">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_cart_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_cart_header_status %}
+                                            <input type="radio" name="ez_checkout_cart_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_cart_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_cart_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_cart_header_status %}
+                                            <input type="radio" name="ez_checkout_cart_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_cart_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-cart-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-cart-header" class="form-control" value="{{ ez_checkout_cart_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_cart_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_cart_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-cart-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-cart-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_cart_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-user">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_header_status %}
+                                            <input type="radio" name="ez_checkout_user_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_header_status %}
+                                            <input type="radio" name="ez_checkout_user_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-user-header" class="form-control" value="{{ ez_checkout_user_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_user_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_user_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-user-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-user-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_user_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_firstname_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_firstname_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_firstname_status %}
+                                            <input type="radio" name="ez_checkout_user_firstname_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_firstname_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_firstname_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_firstname_status %}
+                                            <input type="radio" name="ez_checkout_user_firstname_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_firstname_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-firstname-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_firstname_width" id="input-user-firstname-width" class="form-control">
+                                        {% if ez_checkout_user_firstname_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_firstname_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_firstname_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_firstname_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-firstname-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_firstname_sort" id="input-user-firstname-sort" class="form-control" value="{{ ez_checkout_user_firstname_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_lastname_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_lastname_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_lastname_status %}
+                                            <input type="radio" name="ez_checkout_user_lastname_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_lastname_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_lastname_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_lastname_status %}
+                                            <input type="radio" name="ez_checkout_user_lastname_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_lastname_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-lastname-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_lastname_width" id="input-user-lastname-width" class="form-control">
+                                        {% if ez_checkout_user_lastname_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_lastname_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_lastname_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_lastname_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-lastname-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_lastname_sort" id="input-user-lastname-sort" class="form-control" value="{{ ez_checkout_user_lastname_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_email_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_email_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_email_status %}
+                                            <input type="radio" name="ez_checkout_user_email_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_email_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_email_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_email_status %}
+                                            <input type="radio" name="ez_checkout_user_email_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_email_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-email-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_email_width" id="input-user-email-width" class="form-control">
+                                        {% if ez_checkout_user_email_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_email_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_email_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_email_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-email-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_email_sort" id="input-user-email-sort" class="form-control" value="{{ ez_checkout_user_email_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_telephone_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_telephone_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_telephone_status %}
+                                            <input type="radio" name="ez_checkout_user_telephone_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_telephone_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_telephone_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_telephone_status %}
+                                            <input type="radio" name="ez_checkout_user_telephone_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_telephone_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-telephone-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_telephone_width" id="input-user-telephone-width" class="form-control">
+                                        {% if ez_checkout_user_telephone_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_telephone_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_telephone_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_telephone_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-telephone-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_telephone_sort" id="input-user-telephone-sort" class="form-control" value="{{ ez_checkout_user_telephone_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_fax_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_fax_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_fax_status %}
+                                            <input type="radio" name="ez_checkout_user_fax_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_fax_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_fax_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_fax_status %}
+                                            <input type="radio" name="ez_checkout_user_fax_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_fax_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-fax-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_fax_width" id="input-user-fax-width" class="form-control">
+                                        {% if ez_checkout_user_fax_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_fax_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_fax_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_fax_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-fax-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_fax_sort" id="input-user-fax-sort" class="form-control" value="{{ ez_checkout_user_fax_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_user_comment_status }}:<span data-toggle="tooltip" title="{{ help_user_comment }}"></span></label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_comment_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_comment_status %}
+                                            <input type="radio" name="ez_checkout_user_comment_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_comment_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_comment_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_comment_status %}
+                                            <input type="radio" name="ez_checkout_user_comment_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_comment_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-comment-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_comment_width" id="input-user-comment-width" class="form-control">
+                                        {% if ez_checkout_user_comment_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_comment_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_comment_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_user_comment_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-comment-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_comment_sort" id="input-user-comment-sort" class="form-control" value="{{ ez_checkout_user_comment_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_user_register_status }}">{{ entry_user_register_status }}:</span></label>
+                                <div class="col-sm-7">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_register_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_register_status %}
+                                            <input type="radio" name="ez_checkout_user_register_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_register_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_register_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_register_status %}
+                                            <input type="radio" name="ez_checkout_user_register_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_register_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-register-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_register_sort" id="input-user-register-sort" class="form-control" value="{{ ez_checkout_user_register_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group" id="user-newsletter">
+                                <label class="col-sm-2 control-label">{{ entry_user_newsletter_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_user_newsletter_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_user_newsletter_status %}
+                                            <input type="radio" name="ez_checkout_user_newsletter_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_newsletter_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_user_newsletter_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_user_newsletter_status %}
+                                            <input type="radio" name="ez_checkout_user_newsletter_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_user_newsletter_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-newsletter-default">{{ entry_default }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_user_newsletter_default" id="input-user-newsletter-default" class="form-control">
+                                        {% if ez_checkout_user_newsletter_default %}
+                                        <option value="1" selected="selected">{{ text_checked }}</option>
+                                       {% else %}
+                                        <option value="1">{{ text_checked }}</option>
+                                       {% endif %}
+                                        {% if not ez_checkout_user_newsletter_default %}
+                                        <option value="0" selected="selected">{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-user-newsletter-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_user_newsletter_sort" id="input-user-newsletter-sort" class="form-control" value="{{ ez_checkout_user_newsletter_sort }}" min="0">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_user_register_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#user-newsletter').show();
+                                        } else {
+                                            $('#user-newsletter').hide();
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_user_register_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-payment-address">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_address_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_address_header_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_address_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_address_header_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment_address-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-payment_address-header" class="form-control" value="{{ ez_checkout_payment_address_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_payment_address_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_payment_address_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-payment_address-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-payment_address-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_payment_address_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_city_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_city_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_city_status %}
+                                            <input type="radio" name="ez_checkout_payment_city_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_city_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_city_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_city_status %}
+                                            <input type="radio" name="ez_checkout_payment_city_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_city_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-city-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_city_width" id="input-payment-city-width" class="form-control">
+                                        {% if ez_checkout_payment_city_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_city_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_city_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_city_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-city-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_city_sort" id="input-payment-city-sort" class="form-control" value="{{ ez_checkout_payment_city_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_address_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_address_1_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_address_1_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_1_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_1_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_address_1_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_address_1_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_1_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_1_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address_1-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_address_1_width" id="input-payment-address_1-width" class="form-control">
+                                        {% if ez_checkout_payment_address_1_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_1_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_1_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_1_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address_1-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_address_1_sort" id="input-payment-address_1-sort" class="form-control" value="{{ ez_checkout_payment_address_1_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_address_2_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_address_2_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_address_2_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_2_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_2_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_address_2_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_address_2_status %}
+                                            <input type="radio" name="ez_checkout_payment_address_2_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_address_2_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address_2-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_address_2_width" id="input-payment-address_2-width" class="form-control">
+                                        {% if ez_checkout_payment_address_2_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_2_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_2_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_address_2_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-address_2-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_address_2_sort" id="input-payment-address_2-sort" class="form-control" value="{{ ez_checkout_payment_address_2_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_company_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_company_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_company_status %}
+                                            <input type="radio" name="ez_checkout_payment_company_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_company_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_company_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_company_status %}
+                                            <input type="radio" name="ez_checkout_payment_company_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_company_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-company-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_company_width" id="input-payment-company-width" class="form-control">
+                                        {% if ez_checkout_payment_company_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_company_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_company_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_company_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-company-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_company_sort" id="input-payment-company-sort" class="form-control" value="{{ ez_checkout_payment_company_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_postcode_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_postcode_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_postcode_status %}
+                                            <input type="radio" name="ez_checkout_payment_postcode_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_postcode_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_postcode_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_postcode_status %}
+                                            <input type="radio" name="ez_checkout_payment_postcode_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_postcode_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-postcode-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_postcode_width" id="input-payment-postcode-width" class="form-control">
+                                        {% if ez_checkout_payment_postcode_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_postcode_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_postcode_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_postcode_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-postcode-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_postcode_sort" id="input-payment-postcode-sort" class="form-control" value="{{ ez_checkout_payment_postcode_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_country_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_country_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_country_status %}
+                                            <input type="radio" name="ez_checkout_payment_country_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_country_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_country_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_country_status %}
+                                            <input type="radio" name="ez_checkout_payment_country_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_country_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-country-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_country_width" id="input-payment-country-width" class="form-control">
+                                        {% if ez_checkout_payment_country_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_country_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_country_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_country_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-country-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_country_sort" id="input-payment-country-sort" class="form-control" value="{{ ez_checkout_payment_country_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_zone_id_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_zone_id_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_zone_id_status %}
+                                            <input type="radio" name="ez_checkout_payment_zone_id_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_zone_id_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_zone_id_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_zone_id_status %}
+                                            <input type="radio" name="ez_checkout_payment_zone_id_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_zone_id_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-zone_id-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_payment_zone_id_width" id="input-payment-zone_id-width" class="form-control">
+                                        {% if ez_checkout_payment_zone_id_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_zone_id_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_zone_id_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_payment_zone_id_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-zone_id-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_payment_zone_id_sort" id="input-payment-zone_id-sort" class="form-control" value="{{ ez_checkout_payment_zone_id_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="input-payment-country-default">{{ entry_country_default }}:</label>
+                                <div class="col-sm-3">
+                                    <select name="ez_checkout_payment_country_default" id="input-payment-country-default" class="form-control">
+                                        {% if not ez_checkout_payment_country_default %}
+                                        <option value="0" selected>{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                      
+											{% for country in countries %}
+                                        {% if country.country_id == ez_checkout_payment_country_default %}
+                                        <option value="{{ country.country_id }}" selected>{{ country['name'] }}</option>
+                                       {% else %}
+                                        <option value="{{ country.country_id }}">{{ country['name'] }}</option>
+                                       {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-zone_id-default">{{ entry_zone_id_default }}:</label>
+                                <div class="col-sm-5">
+                                    <select name="ez_checkout_payment_zone_id_default" id="input-payment-zone_id-default" class="form-control">
+                                        {% if not ez_checkout_payment_zone_id_default %}
+                                        <option value="0" selected>{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-shipping-address">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_address_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_address_header_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_address_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_address_header_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping_address-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-shipping_address-header" class="form-control" value="{{ ez_checkout_shipping_address_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_shipping_address_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_shipping_address_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-shipping_address-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-shipping_address-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_shipping_address_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_city_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_city_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_city_status %}
+                                            <input type="radio" name="ez_checkout_shipping_city_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_city_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_city_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_city_status %}
+                                            <input type="radio" name="ez_checkout_shipping_city_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_city_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-city-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_city_width" id="input-shipping-city-width" class="form-control">
+                                        {% if ez_checkout_shipping_city_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_city_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_city_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_city_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-city-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_city_sort" id="input-shipping-city-sort" class="form-control" value="{{ ez_checkout_shipping_city_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_address_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_address_1_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_address_1_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_1_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_1_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_address_1_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_address_1_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_1_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_1_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address_1-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_address_1_width" id="input-shipping-address_1-width" class="form-control">
+                                        {% if ez_checkout_shipping_address_1_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_1_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_1_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_1_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address_1-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_address_1_sort" id="input-shipping-address_1-sort" class="form-control" value="{{ ez_checkout_shipping_address_1_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_address_2_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_address_2_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_address_2_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_2_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_2_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_address_2_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_address_2_status %}
+                                            <input type="radio" name="ez_checkout_shipping_address_2_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_address_2_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address_2-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_address_2_width" id="input-shipping-address_2-width" class="form-control">
+                                        {% if ez_checkout_shipping_address_2_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_2_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_2_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_address_2_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-address_2-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_address_2_sort" id="input-shipping-address_2-sort" class="form-control" value="{{ ez_checkout_shipping_address_2_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_company_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_company_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_company_status %}
+                                            <input type="radio" name="ez_checkout_shipping_company_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_company_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_company_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_company_status %}
+                                            <input type="radio" name="ez_checkout_shipping_company_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_company_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-company-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_company_width" id="input-shipping-company-width" class="form-control">
+                                        {% if ez_checkout_shipping_company_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_company_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_company_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_company_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-company-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_company_sort" id="input-shipping-company-sort" class="form-control" value="{{ ez_checkout_shipping_company_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_postcode_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_postcode_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_postcode_status %}
+                                            <input type="radio" name="ez_checkout_shipping_postcode_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_postcode_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_postcode_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_postcode_status %}
+                                            <input type="radio" name="ez_checkout_shipping_postcode_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_postcode_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-postcode-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_postcode_width" id="input-shipping-postcode-width" class="form-control">
+                                        {% if ez_checkout_shipping_postcode_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_postcode_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_postcode_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_postcode_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-postcode-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_postcode_sort" id="input-shipping-postcode-sort" class="form-control" value="{{ ez_checkout_shipping_postcode_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_country_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_country_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_country_status %}
+                                            <input type="radio" name="ez_checkout_shipping_country_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_country_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_country_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_country_status %}
+                                            <input type="radio" name="ez_checkout_shipping_country_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_country_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-country-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_country_width" id="input-shipping-country-width" class="form-control">
+                                        {% if ez_checkout_shipping_country_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_country_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_country_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_country_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-country-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_country_sort" id="input-shipping-country-sort" class="form-control" value="{{ ez_checkout_shipping_country_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_zone_id_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_zone_id_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_zone_id_status %}
+                                            <input type="radio" name="ez_checkout_shipping_zone_id_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_zone_id_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_zone_id_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_zone_id_status %}
+                                            <input type="radio" name="ez_checkout_shipping_zone_id_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_zone_id_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-zone_id-width">{{ entry_field_width }}:</label>
+                                <div class="col-sm-2">
+                                    <select name="ez_checkout_shipping_zone_id_width" id="input-shipping-zone_id-width" class="form-control">
+                                        {% if ez_checkout_shipping_zone_id_width == '12' %}
+                                        <option value="12" selected="selected">100%</option>
+                                       {% else %}
+                                        <option value="12">100%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_zone_id_width == '6' %}
+                                        <option value="6" selected="selected">50%</option>
+                                       {% else %}
+                                        <option value="6">50%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_zone_id_width == '4' %}
+                                        <option value="4" selected="selected">33%</option>
+                                       {% else %}
+                                        <option value="4">33%</option>
+                                       {% endif %}
+                                        {% if ez_checkout_shipping_zone_id_width == '3' %}
+                                        <option value="3" selected="selected">25%</option>
+                                       {% else %}
+                                        <option value="3">25%</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-zone_id-sort">{{ entry_sort }}:</label>
+                                <div class="col-sm-1">
+                                    <input type="number" name="ez_checkout_shipping_zone_id_sort" id="input-shipping-zone_id-sort" class="form-control" value="{{ ez_checkout_shipping_zone_id_sort }}" min="0">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="input-shipping-country-default">{{ entry_country_default }}:</label>
+                                <div class="col-sm-3">
+                                    <select name="ez_checkout_shipping_country_default" id="input-shipping-country-default" class="form-control">
+                                        {% if not ez_checkout_shipping_country_default %}
+                                        <option value="0" selected>{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                       
+										{% for country in countries %}
+                                        {% if country.country_id == ez_checkout_shipping_country_default %}
+                                        <option value="{{ country.country_id }}" selected>{{ country['name'] }}</option>
+                                       {% else %}
+                                        <option value="{{ country.country_id }}">{{ country['name'] }}</option>
+                                       {% endif %}
+										{% endfor %}
+                                    </select>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-zone_id-default">{{ entry_zone_id_default }}:</label>
+                                <div class="col-sm-5">
+                                    <select name="ez_checkout_shipping_zone_id_default" id="input-shipping-zone_id-default" class="form-control">
+                                        {% if not ez_checkout_shipping_zone_id_default %}
+                                        <option value="0" selected>{{ text_not_checked }}</option>
+                                       {% else %}
+                                        <option value="0">{{ text_not_checked }}</option>
+                                       {% endif %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-payment-method">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_payment_method_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_payment_method_header_status %}
+                                            <input type="radio" name="ez_checkout_payment_method_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_method_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_payment_method_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_payment_method_header_status %}
+                                            <input type="radio" name="ez_checkout_payment_method_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_payment_method_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-payment-method-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-payment-method-header" class="form-control" value="{{ ez_checkout_payment_method_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_payment_method_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_payment_method_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-payment-method-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-payment-method-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_payment_method_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-shipping-method">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_shipping_method_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_shipping_method_header_status %}
+                                            <input type="radio" name="ez_checkout_shipping_method_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_method_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_shipping_method_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_shipping_method_header_status %}
+                                            <input type="radio" name="ez_checkout_shipping_method_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_shipping_method_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-shipping-method-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-shipping-method-header" class="form-control" value="{{ ez_checkout_shipping_method_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_shipping_method_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_shipping_method_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-shipping-method-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-shipping-method-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_shipping_method_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-comment">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">{{ entry_heading_status }}:</label>
+                                <div class="col-sm-3">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default{% if ez_checkout_comment_header_status %}active {% endif %} " title="{{ text_enabled }}">
+                                            {% if ez_checkout_comment_header_status %}
+                                            <input type="radio" name="ez_checkout_comment_header_status" value="1" checked>{{ action_active }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_comment_header_status" value="1">{{ action_active }}
+                                           {% endif %}
+                                        </label>
+                                        <label class="btn btn-default{% if not ez_checkout_comment_header_status %}active {% endif %} " title="{{ text_disabled }}">
+                                            {% if ez_checkout_comment_header_status %}
+                                            <input type="radio" name="ez_checkout_comment_header_status" value="0">{{ action_disable }}
+                                           {% else %}
+                                            <input type="radio" name="ez_checkout_comment_header_status" value="0" checked>{{ action_disable }}
+                                           {% endif %}
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label" for="input-comment-header">{{ entry_header_text }}:</label>
+                                <div class="col-sm-5">
+                                    <input type="text" id="input-comment-header" class="form-control" value="{{ ez_checkout_comment_header_text }}" placeholder="{{ entry_header_text }}" name="ez_checkout_comment_header_text">
+                                </div>
+                                <script><!--
+                                    $('input[name="ez_checkout_comment_header_status"]').change(function() {
+                                        if ($(this).filter(':checked').val() == '1') {
+                                            $('#input-comment-header').removeAttr('disabled');
+                                        } else {
+                                            $('#input-comment-header').attr('disabled', 'disabled');
+                                        }
+                                    });
+                                    $('input[name="ez_checkout_comment_header_status"]:checked').trigger('change');
+                                //--></script>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('select[name=\'ez_checkout_payment_country_default\']').on('change', function() {
+        console.log($(this).val());
+        if (parseInt($(this).val())) {
+            $('select[name=\'ez_checkout_payment_zone_id_default\']').removeAttr('disabled');
+        } else {
+            $('select[name=\'ez_checkout_payment_zone_id_default\']').attr('disabled', 'disabled');
+        }
+        $.ajax({
+            url: '/index.php?route=checkout/checkout/country&country_id=' + this.value,
+            dataType: 'json',
+            beforeSend: function() {
+                $('select[name=\'ez_checkout_payment_country_default\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+            },
+            complete: function() {
+                $('.fa-spin').remove();
+            },
+            success: function(json) {
+                {% if ez_checkout_payment_country_default %}
+                html = '<option value="0">{{ text_not_checked }}</option>';
+               {% else %}
+                html = '<option value="0" selected>{{ text_not_checked }}</option>';
+               {% endif %}
+
+                if (json['zone'] && json['zone'] != '') {
+                    for (i = 0; i < json['zone'].length; i++) {
+                        html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+                        if (json['zone'][i]['zone_id'] == '{{ ez_checkout_payment_zone_id_default }}') {
+                            html += ' selected="selected"';
+                        }
+                        html += '>' + json['zone'][i]['name'] + '</option>';
+                    }
+                }
+
+                $('select[name=\'ez_checkout_payment_zone_id_default\']').html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $('select[name=\'ez_checkout_payment_country_default\']').trigger('change');
+    //
+//--></script>
+
+<script type="text/javascript">
+    $('select[name=\'ez_checkout_shipping_country_default\']').on('change', function() {
+        console.log($(this).val());
+        if (parseInt($(this).val())) {
+            $('select[name=\'ez_checkout_shipping_zone_id_default\']').removeAttr('disabled');
+        } else {
+            $('select[name=\'ez_checkout_shipping_zone_id_default\']').attr('disabled', 'disabled');
+        }
+        $.ajax({
+            url: '/index.php?route=checkout/checkout/country&country_id=' + this.value,
+            dataType: 'json',
+            beforeSend: function() {
+                $('select[name=\'ez_checkout_shipping_country_default\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+            },
+            complete: function() {
+                $('.fa-spin').remove();
+            },
+            success: function(json) {
+                {% if ez_checkout_shipping_country_default %}
+                html = '<option value="0">{{ text_not_checked }}</option>';
+               {% else %}
+                html = '<option value="0" selected>{{ text_not_checked }}</option>';
+               {% endif %}
+
+                if (json['zone'] && json['zone'] != '') {
+                    for (i = 0; i < json['zone'].length; i++) {
+                        html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+                        if (json['zone'][i]['zone_id'] == '{{ ez_checkout_shipping_zone_id_default }}') {
+                            html += ' selected="selected"';
+                        }
+                        html += '>' + json['zone'][i]['name'] + '</option>';
+                    }
+                }
+
+                $('select[name=\'ez_checkout_shipping_zone_id_default\']').html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    });
+
+    $('select[name=\'ez_checkout_shipping_country_default\']').trigger('change');
+    //
+//--></script>
+
+{{ footer }}

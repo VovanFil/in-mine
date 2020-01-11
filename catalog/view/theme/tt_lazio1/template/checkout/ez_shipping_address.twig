@@ -1,0 +1,94 @@
+<div class="panel panel-primary">
+    {% if heading_title %} 
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ heading_title }}</h3>
+    </div>
+      {% endif %}
+    <div class="panel-body">
+        <div class="row form-group" id="shipping-address-form">
+           {% set tmp_width = 0 %}
+           
+			{% for field in fields %}
+				{% if field['type'] == 'text'  or  field['type'] == 'email'  or  field['type'] == 'tel'  or  field['type'] == 'password' %} 
+				<div class="col-sm-{{ field['width'] }} form-group {% if field['required'] %}  required {% endif %} {{ field['class'] }}">
+					<label class="control-label" for="{{ field['id'] }}">{{ field['label'] }}</label>
+					<input type="{{ field['type'] }}" name="{{ field['name'] }}" value="{{ field['value'] }}" placeholder="{{ field['label'] }}" id="{{ field['id'] }}" class="form-control">
+				</div>
+			   {% elseif field['type'] == 'checkbox'  or  field['type'] == 'radio' %} 
+				{% if field['label'] %} 
+				<div class="clearfix {{ field['class'] }} form-group">
+				<strong class="col-sm-12">{{ field['label'] }}</strong>
+				 {% endif %}
+			 
+				{% for item in field['value'] %}
+				<div class="{{ field['type'] }} col-sm-{{ field['width'] }} {{ field['class'] }} clearfix" id="{{ field['id'] }}">
+					<label>
+						{% if item['checked'] %} 
+						<input type="{{ field['type'] }}" name="{{ field['name'] }}" value="{{ item['value'] }}"  checked><span>{{ item['text'] }}</span>
+					  {% else %}
+						<input type="{{ field['type'] }}" name="{{ field['name'] }}" value="{{ item['value'] }}"><span>{{ item['text'] }}</span>
+						 {% endif %}
+					</label>
+				</div>
+				 {% endfor %}
+				{% if field['label'] %} 
+				</div>
+				{% endif %}
+			   {% elseif field['type'] == 'select' %} 
+				<div class="col-sm-{{ field['width'] }} form-group {% if field['required'] %}  required {% endif %} {{ field['class'] }}">
+					<label class="control-label" for="{{ field['id'] }}">{{ field['label'] }}</label>
+					<select name="{{ field['name'] }}" id="{{ field['id'] }}" class="form-control">
+				  
+						{% for item in field['value'] %}
+						{% if item['selected'] %} 
+						<option value="{{ item['value']
+						}}" selected>{{ item['text'] }}</option>
+					  {% else %}
+						<option value="{{ item['value'] }}">{{ item['text'] }}</option>
+						{% endif %}
+						 {% endfor %}
+					</select>
+				</div>
+				{% endif %}
+				{% set tmp_width = tmp_width + field['width'] %}
+				{% if tmp_width >= 12 %} 
+				{% set tmp_width = 0 %}
+				{% if field['type'] != 'checkbox'  and  field['type'] != 'radio' %} 
+				<div class="clearfix"></div>
+				{% endif %}
+			   {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{# {% if curr_zone_id %} {{ curr_zone_id }} {% else %} 0 {% endif $} #}
+<script><!--
+    $form = $('#shipping-address-form');
+    $form.find('*:input').change(function() {
+        if ($(this).is('[name="shipping_address[country_id]"]')) {
+            updateZone($(this), $('select[name="shipping_address[zone_id]"]'), this.value,  0 ); //zone 
+			
+            var data = $(this).serializeArray();
+        } else {
+            var data = $(this).serializeArray();
+        }
+        updateSession(data, $form, $(this));
+    });
+//--></script>
+
+{% if logged %} 
+<style>
+    .new-address {
+        display: none;
+    }
+</style>
+<script><!--
+    $('#shipping-address-form [name="default_shipping_address"]').change(function() {
+        if ($(this).val() == 'new') {
+            $('#shipping-address-form .new-address').show();
+        } else {
+            $('#shipping-address-form .new-address').hide();
+        }
+    });
+//--></script>
+{% endif %}

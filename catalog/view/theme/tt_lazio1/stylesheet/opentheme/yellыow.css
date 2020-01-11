@@ -1,0 +1,351 @@
+a {
+    color: #da0000
+}
+
+.text-color {
+    color: #da0000
+}
+
+.icon {
+    fill: #da0000
+}
+
+.shape-bg {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.gradient-bg {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.icon-border-1 {
+    border: 1px solid #da0000
+}
+
+.icon-border-2 {
+    border: 2px solid #da0000
+}
+
+.btn-base {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.btn-base:after {
+    background: #c70303
+}
+
+.btn-trans {
+    color: #da0000;
+    border: 2px solid #da0000
+}
+
+.btn-trans .icon {
+    fill: #da0000
+}
+
+.btn-trans:hover,
+.btn-trans:focus,
+.btn-trans:active {
+    background-color: #c70303;
+    border-color: #c70303
+}
+
+.btn-white {
+    color: #da0000
+}
+
+.tab-btn li.active a {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.filter-buttons .active {
+    color: #da0000
+}
+
+.navbar-nemo .navbar-nav>li>a:hover{
+    color: #da0000;
+    background-color: transparent;
+	
+}
+.navbar-nemo .navbar-nav>li>a:hover,
+.navbar-nemo .navbar-nav>li>a:focus{
+   outline:none;
+}
+
+.navbar-nemo .navbar-nav>.active>a {
+    color: #da0000
+}
+
+.navbar-toggle {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.gradient-overlay:before {
+    background-image: linear-gradient(to bottom right, rgba(40, 40, 40, .13), rgba(40, 40, 40, .13))
+}
+
+.transparent-overlay:before {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .9), rgba(254, 185, 96, .9))
+}
+
+.polygon-bg {
+    background-image: url(../../images/polygon-bg/yellow.jpg)
+}
+
+.video-bg:before {
+    background-image: linear-gradient(to bottom right, rgba(40, 40, 40, .75), rgba(254, 185, 96, .75))
+}
+
+.section-heading .lines {
+    border-top: 2px solid #da0000
+}
+
+.section-heading .lines:before,
+.section-heading .lines:after {
+    border-top: 2px solid #da0000
+}
+
+.heading-pre-suf:before,
+.heading-pre-suf:after {
+    background-color: #da0000
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #da0000
+}
+
+.event-info {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.event-info.white-bg {
+    color: #da0000
+}
+
+.event-info.white-bg .heading-text {
+    color: #da0000
+}
+
+.form-control:focus {
+    border-color: #da0000
+}
+
+.input-group .form-control {
+    box-shadow: 0 0 20px 2px rgba(254, 185, 96, .06)
+}
+
+.form-standard:focus {
+    border-color: #da0000
+}
+
+.form-underlined .form-control:focus {
+    border-color: #da0000
+}
+
+.select-radio input[type="radio"]:checked+label {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.select-outer:after {
+    border-color: #da0000 transparent transparent
+}
+
+.select-outer .form-inline-input {
+    color: #da0000
+}
+
+.form-widget .btn-trans {
+    background-color: rgba(254, 185, 96, .05)
+}
+
+.select-item input[type="checkbox"]:before {
+    border: 2px solid #da0000
+}
+
+.select-item input[type="checkbox"]:checked:after {
+    background-color: #da0000
+}
+
+.select-item .form-control {
+    color: #da0000
+}
+
+.nav-btn-tabs .active .btn {
+    border-color: #da0000;
+    color: #da0000
+}
+
+.order-list li:before {
+    color: #da0000
+}
+
+.select-dropdown .form-standard {
+    color: #da0000
+}
+
+.radio-standard input[type="radio"]:checked+label:after {
+    background-color: #da0000
+}
+
+.radio-standard label:before {
+    border: 1px solid #da0000
+}
+
+.order-select-menu .form-control {
+    color: #da0000
+}
+
+.total-payment:before {
+    color: #da0000
+}
+
+.total-payment span {
+    color: #da0000
+}
+
+.desc-title .title-element {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .9), rgba(253, 165, 53, .9))
+}
+
+.objective-time {
+    color: #da0000
+}
+
+.feature-side-content.active .title-text,
+.feature-side-content:hover .title-text {
+    color: #da0000
+}
+
+.feature-side-content.active .icon-shape,
+.feature-side-content:hover .icon-shape {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.gallery-img-pop .hover-effect {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .7), rgba(253, 165, 53, .7))
+}
+
+.speakers-1 .speaker-intro figcaption {
+    border-top: 3px solid #da0000
+}
+
+.img-hover-content:hover .img-intro {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, 0), rgba(253, 165, 53, 0))
+}
+
+.img-hover-content .overlay-content {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .9), rgba(253, 165, 53, .9))
+}
+
+.img-hover-content .img-intro {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .2), rgba(253, 165, 53, .2))
+}
+
+.img-hover-content .btn-trans:hover {
+    color: #da0000
+}
+
+.restaurant-menu .title-text {
+    color: #da0000
+}
+
+.panel-faqs .title-text a {
+    color: #da0000
+}
+
+.panel-schedule .schedule-time:after {
+    border-left: 2px solid #da0000
+}
+
+.post-preview .post-type {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.post-preview .category {
+    color: #da0000
+}
+
+.speakers-1 .speaker-intro .icon-collapsed {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.pricing-table-1 .price {
+    color: #da0000
+}
+
+.pricing-table-1 .featured .pricing-element {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.pricing-table-2 .pricing-element .price {
+    border: 2px solid #da0000;
+    color: #da0000
+}
+
+.pricing-table-2 .pricing-element.featured {
+    border-color: #da0000
+}
+
+.pricing-table-2 .pricing-element.featured .package {
+    color: #da0000
+}
+
+.pricing-table-2 .pricing-element.featured .price {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.pricing-table-2 .pricing-element.featured .btn-trans {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.pricing-table-2 .pricing-element.featured .btn-trans:hover {
+    background-image: linear-gradient(to bottom right, #c70303, #c70303)
+}
+
+.pricing-element-3 .price {
+    color: #da0000
+}
+
+.pricing-element-3.featured {
+    background-image: linear-gradient(to bottom right, #da0000, #c70303)
+}
+
+.screenshots-2 .screen-title {
+    color: #da0000
+}
+
+.screenshots-2 .screen-no {
+    border: 1px solid #da0000
+}
+
+.testimonials .client-name {
+    color: #da0000
+}
+
+.testimonials-4 .thumb {
+    background-color: #da0000
+}
+
+.blockquote-gradient-bg {
+    background-image: linear-gradient(to bottom right, rgba(254, 185, 96, .9), rgba(253, 165, 53, .9))
+}
+
+.footers .socialize .icon:hover {
+    fill: #da0000
+}
+
+.triangle-bg svg .start {
+    stop-color: #da0000
+}
+
+.triangle-bg svg .end {
+    stop-color: #c70303
+}
+
+.select-item input[type="radio"]:before {
+    border: 2px solid #da0000
+}
+
+.select-item input[type="radio"]:checked:after {
+    background-color: #da0000
+}

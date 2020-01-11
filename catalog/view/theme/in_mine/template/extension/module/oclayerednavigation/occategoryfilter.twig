@@ -1,0 +1,133 @@
+{% if products %}
+                
+                           <div class="custom-products"  style="padding: 5px">			
+			<style>
+				.grid-item { width: 33.33333333333%; padding: 2px;}
+			
+			</style>
+				<div class="button-group filter-button-group text-center" style="font-size: 18px; margin-bottom: 30px; margin-top: 30px;">
+				  <button  style="padding:8px; background: transparent" data-filter="*">Все работы</button>
+				  <button style="padding:8px;"     data-filter=".Crazyarchitector">Crazyarchitector</button>
+				  <button style="padding:8px;"     data-filter=".Leonex">Leonex</button>
+				</div>
+<div class="grid" style="margin-bottom: 40px; ">
+	{% for product in products %}
+  <div class="grid-item {% if product.manufacturer %} {{ product.manufacturer }} {% endif %}" >
+
+                        <div class="product-thumb">
+							<div class="item-inner">
+								<div class="image">
+									<a href="{{ product.href }}" >
+										<div class="imgb" style="background: url('{{ product.thumb }}'); background-size: cover; background-position: center;"></div>
+										<img style="width:100%" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
+										
+									<div class="qv-button-container">
+										<!--<button class="btn-quickview" type="button" data-toggle="tooltip" title="{{ button_quickview }}" onclick="ocquickview.ajaxView('{{ product.href }}')"><span>{{ button_quickview }}</span></button>
+										--><div class="morecats"><i class="ion-eye"></i></div>
+									
+									</div>
+									<!-- {% if product.special %}
+										<div class="label-product label_sale">{{ text_label_sale }}</div>
+									{% endif %}
+									{% if product.is_new %}
+										<div class="label-product label_new">{{ text_label_new }}</div>
+									{% endif %} -->
+								</div>
+								<div class="caption">
+									<a class="product-link" href="{{ product.href }}" ></a>
+									{% if product.manufacturer %}
+									<p class="manufacture-product">
+										<a href="{{ product.manufacturers }}">{{ product.manufacturer }}</a>
+									</p>
+									{% endif %}
+									<h4 class="product-name"><a href="{{ product.href }}">{{ product.name }}</a></h4>   
+									{% if product.rating %}
+										<div class="ratings">
+											<div class="rating-box">
+											{% for i in 1..5 %}
+												{% if product.rating == i %}
+												{% set class_r = "rating"~i %}
+												<div class="{{ class_r }}">rating</div>
+												{% endif %}
+											{% endfor %}
+											</div>
+										</div>					
+									{% endif %}
+									{# ANF Display Bought Product #}
+                                    {% if product.bought %}
+										<a href="{{ product.href }}" class="price" style="display: none">
+                                            {% if product.has_download %}
+												<span>{{ text_download_available }}</span>
+                                            {% else %}
+												<span>{{ text_product_bought }}</span>
+                                            {% endif %}
+										</a>
+									{# End ANF Display Bought Product #}
+                                    {% elseif product.price %}
+										<a href="{{ product.href }}" class="price" style="display: none">
+                                            {% if not product.special %}
+                                                {{ product.price }}
+                                            {% else %}
+												<span class="price-old">{{ product.price }}</span><span class="price-new">{{ product.special }}</span>
+                                            {% endif %}
+                                            {% if product.tax %}
+												<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+                                            {% endif %}
+										</a>
+                                    {% endif %}
+									
+								</div>
+								</a>
+							</div>
+                        </div>
+
+  </div>
+  {% endfor %}
+
+</div>
+                </div>
+                <div class="row toolbar4">
+                    <div class="col-sm-6">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+                {% endif %}
+                {% if not categories and not products %}
+                    <p class="text_empty">{{ text_empty }}</p>
+                    <div class="buttons">
+                        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+                    </div>
+                {% endif %}
+
+<script src="catalog/view/javascript/isotope.pkgd.min.js"></script>
+
+<script>
+
+
+
+$( window ).resize(function() {
+	load();
+});
+
+
+	load();
+
+$('.filter-button-group').on( 'click', 'button', function() {
+  var filterValue = $(this).attr('data-filter');
+  
+  $('.grid').isotope({ filter: filterValue,layoutMode: 'fitRows'});
+});
+function load(){
+	 $('.grid img').each(function () {
+	var width = $(this).innerWidth()/16*9;
+      $('.grid img').each(function () {
+		  $(this).css('height', width);
+	  })
+	});
+	$('.grid').isotope({
+		itemSelector: '.grid-item', 
+		layoutMode: 'fitRows'
+	});
+	return 'ok';
+}
+</script>
+{{ footer }}

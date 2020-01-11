@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} lival.by
+RewriteRule (.*) http://lighting.by/catalogue/?pcat=35$1 [R=301,L]
+RewriteCond %{HTTP_HOST} halla.by
+RewriteRule (.*) http://lighting.by/catalogue/?pcat=45$1 [R=301,L]
+RewriteCond %{HTTP_HOST} es-sytem.by
+RewriteRule (.*) http://lighting.by/catalogue/?pcat=36$1 [R=301,L]
+RewriteCond %{HTTP_HOST} slv.by
+RewriteRule (.*) http://lighting.by/catalogue/?pcat=157$1 [R=301,L]
+RewriteCond %{HTTP_HOST} leds-c4.by
+RewriteRule (.*) http://lighting.by/catalogue/?pcat=202$1 [R=301,L]

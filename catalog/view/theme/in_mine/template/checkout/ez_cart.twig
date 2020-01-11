@@ -1,0 +1,193 @@
+{% if redirect %}
+<script><!--
+    location = '{{ redirect }}';
+//--></script>
+{% else %}
+<div class="panel panel-primary" >
+    {% if heading_title %}
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ heading_title }}{% if weight %} &nbsp;({{ weight }}) {% endif %}</h3>
+    </div>
+     {% endif %}
+    <div class="panel-body">
+        {% if attention %}
+        <div class="alert alert-info"><i class="fa fa-info-circle"></i>
+            {{ attention }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+         {% endif %}
+        {% if error_warning %}
+        <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+            {{ error_warning }}
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+         {% endif %}
+        <div class="row" id="cart-table">
+            <div class="col-sm-12">
+                <form id="cart-form" action="{{ action }}" method="post" enctype="multipart/form-data">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" style="margin-bottom: 0;">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">
+                                        {{ column_image }}
+                                    </td>
+                                    <td class="text-left">
+                                        {{ column_name }}
+                                    </td>
+                                    <td class="text-left">
+                                        {{ column_model }}
+                                    </td>
+                                    <td class="text-left">
+                                        {{ column_quantity }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ column_price }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ column_total }}
+                                    </td>
+                                    <td class="text-center" style="width: 1%;">
+                                        {{ column_delete }}
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               {% for product in products %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if product['thumb'] %}
+                                        <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" /></a>
+                                         {% endif %}
+                                    </td>
+                                    <td class="text-left">
+                                        <a href="{{ product['href'] }}">
+                                            {{ product['name'] }}
+                                        </a>
+                                        {% if not product['stock'] %}
+                                        <span class="text-danger">***</span>
+                                         {% endif %}
+                                        {% if product['option'] %}
+                                       
+										{% for option in product['option'] %}
+                                        <br />
+                                        <small>{{ option['name'] }}: {{ option['value'] }}</small>
+										{% endfor %}
+                                         {% endif %}
+                                        {% if product['reward'] %}
+                                        <br />
+                                        <small>{{ product['reward'] }}</small>
+                                         {% endif %}
+                                        {% if product['recurring'] %}
+                                        <br />
+                                        <span class="label label-info">{{ text_recurring_item }}</span> <small>{{ product['recurring'] }}</small>
+                                         {% endif %}
+                                    </td>
+                                    <td class="text-left">
+                                        {{ product['model'] }}
+                                    </td>
+                                    <td class="text-center" style="width: 150px;">
+                                        <div class="input-group btn-block">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" onclick="lessProduct({{ product['cart_id'] }})"><i class="fa fa-minus-circle"></i></button>
+                                            </span>
+                                            <input type="text" name="quantity[{{ product['cart_id'] }}]" value="{{ product['quantity'] }}" size="1" class="form-control input-quantity text-center">
+                                            <span class="input-group-btn">
+                                                <button type="button" class="btn btn-default" onclick="moreProduct({{ product['cart_id'] }})"><i class="fa fa-plus-circle"></i></button>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        {{ product['price'] }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ product['total'] }}
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="removeProduct('{{ product['cart_id'] }}');"><i class="fa fa-times-circle"></i></button>
+                                    </td>
+                                </tr>
+                                 {% endfor %}
+                               
+								{% for voucher in vouchers %}
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="text-left">
+                                        {{ voucher['description'] }}
+                                    </td>
+                                    <td class="text-left"></td>
+                                    <td class="text-left">
+                                        <div class="input-group btn-block" style="max-width: 200px;">
+                                            <input type="text" name="" value="1" size="1" disabled="disabled" class="form-control" />
+                                            <span class="input-group-btn">
+                                                <button type="button" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger" onclick="voucher.remove('{{ voucher['key'] }}');"><i class="fa fa-times-circle"></i></button>
+                                             </span>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        {{ voucher['amount'] }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ voucher['amount'] }}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #cart-table .table td {
+        vertical-align: middle;
+    }
+</style>
+
+<script><!--
+    $(document).ready(function() {
+
+        $('#cart-form').submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: $('#cart-form').attr('action'),
+                dataType: 'json',
+                data: $('#cart-form').serialize(),
+                type: $('#cart-form').attr('method'),
+                beforeSend: function() {
+                    $('#checkout-confirm').button('loading');
+                },
+                complete: function() {
+                    $('#checkout-confirm').button('reset');
+                },
+                success: function(json) {
+                    if (json['redirect']) {
+                        location = json['redirect'];
+                    } else {
+                        updateCart(true);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        });
+
+        $('#cart-form').find('.input-quantity').keypress(function(event) {
+            if (event.charCode < 48  || event.charCode > 57) {
+                event.preventDefault();
+            }
+        });
+
+        $('.input-quantity').on('change', function() {
+            $('#cart-form').submit();
+        });
+
+    });
+//--></script>
+
+ {% endif %}

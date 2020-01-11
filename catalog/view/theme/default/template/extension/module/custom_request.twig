@@ -1,0 +1,41 @@
+{{ header }}
+{{ column_left }}
+{{ column_right }}
+{{ content_top }}
+<div id="content">
+    <div class="container">
+        <iframe id="cr-gform" src="{{ gform_embed_link }}" width="750" height="397" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
+    </div>
+</div>
+<style>
+
+</style>
+<script>
+    $(document).ready(function() {
+        var gform = $('#cr-gform');
+        var margin = 40;
+        var max = 750;
+        var maxc = max + margin;
+
+        function adjustCRWidth() {
+            var dw = window.outerWidth;
+            var fw = gform.width();
+            if (dw < (fw + margin)) {
+                gform.attr('width', (dw - margin));
+            } else if (dw > (fw + margin)) {
+                if (dw < maxc) {
+                    gform.attr('width', (dw - margin));
+                } else {
+                    gform.attr('width', max);
+                }
+            }
+        }
+
+        adjustCRWidth();
+        $(window).on('resize', function() {
+            adjustCRWidth();
+        })
+    });
+</script>
+{{ content_bottom }}
+{{ footer }}

@@ -1,0 +1,44 @@
+{{ header }}
+<div id="information-information" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      {{ description }}{{ content_bottom }}</div>
+    {{ column_right }}</div>
+  <script>
+    $(document).ready(function() {
+        function bringDaChaos() {
+            var inf = $('#information-information');
+            var foot = inf.next();
+            var window_h = window.innerHeight;
+            if (foot.is('footer')) {
+                var foot_bound = foot.get(0).getBoundingClientRect();
+                var foot_offset_now = parseInt(foot.css('margin-top'));
+                var footer_offset;
+                if (foot_bound.top + foot_bound.height - foot_offset_now < window_h) {
+                    var inf_bound = inf.get(0).getBoundingClientRect();
+                    footer_offset = window_h - (inf_bound.top + inf_bound.height) - foot_bound.height;
+                } else {
+                    footer_offset = 'unset';
+                }
+                foot.css('margin-top', footer_offset);
+            }
+        }
+        bringDaChaos();
+        $(window).on('resize', bringDaChaos);
+    });
+  </script>
+</div>
+{{ footer }}

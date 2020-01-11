@@ -1,0 +1,1049 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>reveal.js</title>
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;subset=cyrillic,cyrillic-ext" rel="stylesheet">
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<style>
+		
+		
+		body {
+		background-size: cover;
+		}
+		p{
+		font-family: 'Open Sans';
+		font-weight: normal;
+		padding:0;
+		margin:0!important;
+		
+		}
+		button{
+		padding: 10px 18px;
+		background: #f26b40;
+		border:0;
+		color:#fff;
+		cursor: pointer;
+		border-radius: 3px;
+		font-size: 24px;
+		text-transform: uppercase;
+		font-family: Open Sans!important;
+		font-weight: 100!important;
+		margin-top:10px;
+		}
+		button:focus, button:hover, button:active{
+		outline:none;
+		}
+		h3{
+		margin:0!important;
+		}
+		*, *:before, *:after {
+		box-sizing: border-box;
+		}
+		.range-slider {
+		margin: 60px 0 0 0%;
+		}
+		.range-slider {
+		width: 100%;
+		}
+		.range-slider__range {
+		-webkit-appearance: none;
+		width: 90%;
+		width: calc(100% - (93px));
+		height: 15px;
+		border-radius: 5px;
+		background: #d7dcdf;
+		outline: none;
+		padding: 0;
+		margin: 40px 0;
+		}
+		.range-slider__range::-webkit-slider-thumb {
+		background: #289afa;
+		border:0;
+		width:40px; height: 50px;
+		}
+		.range-slider__range::-webkit-slider-thumb:hover {
+		background: #258adf;
+		}
+		.range-slider__range:active::-webkit-slider-thumb {
+		border:0;
+		}
+		.range-slider__range::-moz-range-thumb:hover {
+		background: #258adf;
+		}
+		.range-slider__range:active::-moz-range-thumb {
+		background: #258adf;
+		}
+		.range-slider__range::-webkit-slider-thumb:hover {
+		background: #258adf;
+		}
+		.range-slider__range:active::-webkit-slider-thumb {
+		background: #258adf;
+		}
+		.range-slider__range::-range-thumb:hover {
+		background: #258adf;
+		}
+		.range-slider__range:active::-range-thumb {
+		background: #258adf;
+		}
+		.range-slider__value {
+		display: inline-block;
+		position: relative;
+		width: 80px;
+		color: #fff;
+		line-height: 40px;
+		text-align: center;
+		border-radius: 5px;
+		background: #289afa;
+		padding: 5px 15px;
+		margin-left: 8px!important;
+		font-size: 23px;
+		font-weight: bold;
+		float: right;
+		margin-top: 20px!important;
+		}
+		.range-slider__value:after {
+		position: absolute;
+		top: 20px;
+		left: -6px;
+		width: 0;
+		height: 0;
+		border-top: 7px solid transparent;
+		border-right: 7px solid #289afa;
+		border-bottom: 7px solid transparent;
+		content: '';
+		}
+		input[type=range]::-moz-range-track {
+		background: #d7dcdf;
+		border: 0;
+		}
+		input[type=range]::-webkit-slider-track {
+		background: #d7dcdf;
+		border: 0;
+		}
+		input::-moz-focus-inner,
+		input::-moz-focus-outer {
+		border: 0;
+		}
+		input[type=range]::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		border: 0;
+		border-radius: 50%;
+		height: 40px;
+		width: 40px;
+		max-width: 80px;
+		position: relative;
+		background-color: #289afa;
+		cursor: -webkit-grab;
+		-webkit-transition: border 1000ms ease;
+		transition: border 1000ms ease;
+		}
+		input[type=range]::-moz-range-thumb {
+		-moz-appearance: none;
+		border: 2px solid;
+		border-radius: 50%;
+		height: 25px;
+		width: 25px;
+		max-width: 80px;
+		position: relative;
+		bottom: 11px;
+		background-color: #1d1c25;
+		cursor: -moz-grab;
+		-moz-transition: border 1000ms ease;
+		transition: border 1000ms ease;
+		}
+		li {
+		list-style-type: none;/*прятаем родные маркеры*/
+		}
+		li:before {/*собственно сам маркер*/
+		position: absolute; left: 0;
+		color: #f26b40;
+		content: "•";/*здесь можно в символьном виде задать отображение маркера*/
+		}
+		.ul-blue li:before{  color: #289afa;}
+		</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides" >
+				<section data-background-transition="fade"  >
+					<section data-background="images/bg.jpg"  style="text-align: left;">
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px;">
+							
+							<h3>КАЖДЫЕ ДВЕ МИНУТЫ</h3>
+							<p>
+								От РШМ умирает одна женщина<br>
+								<button class="navigate-down">Причины</button>
+							</p>
+						</div>
+					</section>
+					<section data-background="#f26b40" style="text-align: left;">
+						<div style="border-left: 5px solid #fff; padding-left: 20px; color:#fff; margin-bottom: 50px;">
+							<h5 style="color:#fff;">10-15% всех раковых опухолей</h5>
+							<p>
+								Вызваны папилломовирусами<br>
+								
+							</p>
+							
+						</div>
+						<div style="width:39%; height: 400px; font-size: 22px; display:inline-block;vertical-align: top;  text-align:left; ">
+							<div style="background: url(images/harald.png) no-repeat; height:100%; width: 100%;background-size: 100%;  "></div>
+							
+						</div>
+						<div style="width:60%; display:inline-block; ">
+							<p style="font-size: 25px; line-height: 35px; color:#fff; padding-top: 70px; padding-left: 20px;">Харальд Цур Хаузен из Национального немецкого медицинского центра исследования рака в Хайдельберге установил, что вирус папилломы человека обнаруживается у 99,7% женщин, у которых был подтвержден диагноз рака шейки матки.</p>
+							
+						</div>
+						<p style="font-size: 25px; line-height: 35px; color:#fff;  ">Нобелевский лауреат 2008 года «за открытие роли вирусов папилломы человека в развитии рака шейки матки»
+						</p>
+						
+						
+					</section>
+					<section data-background="#fafafa" style="text-align: left;">
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px;">
+							<p>Течение заболевания от инфицирования до РШМ</p>
+						</div>
+						<div style="background: url(images/bg1_2.jpg) no-repeat; height:300px; width: 100%;background-size: 100%; "></div>
+					</section>
+					<section data-background="images/bg1_1.jpg" style="text-align: left;">
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px;">
+							<h3>Статистика заболевания</h3>
+							<p>
+								3а последние 5 лет частота РШМ увеличилась на 150% и составляет 10,2 человека на 100 тысяч населения в естественных условиях.<br>
+								
+							</p>
+						</div>
+					</section>
+				</section>
+				
+				<section data-background-transition="fade" data-background="images/bg2.jpg" >
+					<section>
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;">
+							<h3>РАК ШЕЙКИ МАТКИ ЗАНИМАЕТ</h3>
+							<p style="font-size: 25px;">
+								2 место по распространённости
+								
+							</p>
+						</div>
+						<div style="width:39%; font-size: 22px; display:inline-block;vertical-align: top; margin-top:100px; text-align:left; ">
+							<p>В нашей стране выявляется больше 12 тысяч новых случаев <b>рака шейки матки</b> в год, это заболевание уносит жизни более 7 тысяч женщин, из которых более 2500 - женщины репродуктивного возраста </p>
+							<button style=" margin-top: 30px;" class="navigate-down">Подробнее</button>
+						</div>
+						<div style="width:60%; display:inline-block; padding-top: 70px;">
+							<canvas  data-chart="pie">
+							<!--
+							{
+							"data": {
+							"labels": ["Рак груди"," Рак шейки матки"," Рак яичников"," Другие формы рака"],
+							"datasets": [
+							{
+								"data":[65,59,80,81],
+								"label":"Диаграма популярности видов рака"
+							}
+							]
+							},
+							
+							"options": { "responsive": "true" }
+							}
+							-->
+						</canvas></div>
+					</section>
+					<section data-background="#0471b6">
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align:left">
+							<p>РАК ШЕЙКИ МАТКИ ЯВЛЯЕТСЯ ВТОРЫМ НАИБОЛЕЕ РАСПРОСТРАННЫМ ВИДОМ РАКА У ЖЕНЩИН</p>
+						</div>
+						<div style="width:39%; height: 400px; font-size: 22px; display:inline-block;vertical-align: top;  text-align:left; ">
+							<div style="background: url('images/vpch.png') no-repeat; background-position: center bottom; height:100%; width: 100%;background-size: 100%; border-radius: 50%;"></div>
+						</div>
+						<div style="width:60%; display:inline-block; ">
+							<p style="font-size: 25px; line-height: 35px; color:#fff; padding-top: 10px; padding-left: 20px;">Развивается в результате приобретенной половым путем инфекции опреденными типами ВПЧ. Более <span style="font-weight: bold">290 миллионов</span> женщин имеют инфекцию, вызванную вирусом папилломы человека (ВПЧ).</p>
+							<p style="font-size: 25px; line-height: 35px; color:#fff; padding-top: 24px; padding-left: 20px;">Два типа ВПЧ (<span style="font-weight: bold">16 и 18</span>) вызывают <span style="font-weight: bold">70%</span> всех случаев рака шейки матки и предраковых патологических состояний шейки матки. Имеются также фактические данные о связи ВПЧ с раковыми заболеваниями ануса, вульвы, влагалища и пениса.</p>
+						</div>
+					</section>
+				</section>
+				<section data-background-transition="fade"  style="background-color: rgba(0, 0, 0, 0.57);" >
+					<section  data-background-video="images/video.mp4, images/video.webm"  data-background-video-loop data-background-video-muted  style="text-align: left; ">
+						<div style="border-left: 5px solid #f26b40; padding-left: 20px;">
+							<h3><span style="color:#f26b40;">99%</span> НАСЕЛЕНИЯ ПЛАНЕТЫ</h3>
+							<p>
+								Инфицированы вирусом герпеса<br>
+								<button class="navigate-down">Причины</button>
+								
+								
+							</p>
+						</div>
+					</section>
+					<section data-background="#2b7da1">
+						<div style="border-left: 5px solid #fff; padding-left: 20px; text-align:left">
+							<p>Герпетическая инфекция принадлежит к так называемому TORCH-комплексу и вызывает внутриутробные болезни</p>
+						</div>
+						<img style="max-width: 100%; margin-top: 40px;" src="images/microbs.jpg">
+					</section>
+					<section data-background-video="images/video2.mp4">
+						<div style=" display:inline-block;vertical-align: top;  text-align:left; text-align: center;">
+							<h3 style="font-size: 150px;     line-height: 110px;">99%</h3><p style="font-size: 30px; font-weight: bold;">Населения планеты</p>
+						</div>
+						<div style="height: 49%; width: 60%; display:inline-block;vertical-align: top;  text-align:left; text-align: center;">
+							<p style="font-size: 24px; text-align: left; padding-left: 30px;"> В 2012 году число инфицированных
+								вирусом ВПГ-1 составляло около
+								3,7 миллиарда человек в возрасте до 50 лет.
+								<br>
+								Вирусом ВПГ-2 инфицированы около
+								417 млн. человек в возрасте
+							от 15 до 49 лет (11%).</p>
+						</div>
+						<div style=" display:inline-block; margin-top: 70px;">
+							<p style="font-size: 20px; font-weight: bold; text-align: left; line-height: 25px; color:#42affa; ">ВОЗ предостерегает мировое сообщество об опасности скрытой пандемии герпетической инфекции</p>
+							<p style="font-size: 25px; text-align:left; line-height: 35px; color:#fff; padding-top: 35px; ">По данным ВОЗ, от 70 до 99% населения мира инфицировано одним или несколькими типами вируса герпеса и у  50% из них в связи с отсутсвием устойчивого иммунитета ежегодно наблюдается рецидивы заболевания.
+							<br>Герпесвирусы, как причина смерти, занимают 2-е место после гриппа - более 15% случаев.</p>
+						</div>
+					</section>
+				</section>
+				<section data-background="images/woman.jpg">
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align:left; color:#333;">
+						<p>Сколько у вас всего пациентов в неделю с ВПЧ?</p>
+					</div>
+					<div class="range-slider">
+						<input class="range-slider__range" type="range" value="30" min="0" max="100">
+						<span class="range-slider__value">0</span>
+					</div>
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align:left; color:#333;">
+						<p>Сколько у вас всего пациентов в неделю с ВПГ?</p>
+					</div>
+					<div class="range-slider">
+						<input class="range-slider__range" type="range" value="30" min="0" max="100">
+						<span class="range-slider__value">0</span>
+					</div>
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align:left; color:#333;">
+						<p>Скольким из ваших пацинетов Вы рекомендуете Аллокин-Альфа?</p>
+					</div>
+					<div class="range-slider">
+						<input class="range-slider__range" type="range" value="30" min="0" max="100">
+						<span class="range-slider__value">0</span>
+					</div>
+				</section>
+				<section data-background="images/1.png" style="text-align: left; color:#333;">
+					<div style="border-left: 5px solid #289afa; padding-left: 20px;">
+						<h3 style="color:#333; font-size: 40px;">АЛЛОКИН-АЛЬФА - ЛУЧШАЯ АЛЬТЕРНАТИВА</h3>
+						<p style="font-size: 30px; max-width:700px;">деструктивным методам лечения ВПЧ при отсутствии поражений шейки матки и аногенитальной области</p>
+					</div>
+					<div style="font-size: 0.8em; margin-top: 100px;">
+						<h4 style="padding: 0; margin: 0; color: #0192dc;">ДЕСТРУКЦИЯ</h4>
+						<p>Главным недостатком деструктивного</p>
+						<p>метода является невысокая</p>
+						<p>эффективность лечения от <span style="font-weight: bold; color: #0192dc;">45-60%</span></p>
+						<p>и вероятность рецидива от <span style="font-weight: bold; color: #0192dc;">40-55%*</span></p>
+					</div>
+					<div>
+						<a href="http://www.vpch.net/treatment/" style="font-size: 20px">*http://www.vpch.net/treatment/</a>
+					</div>
+				</section>
+				<section data-background="images/2.png" style="color:#333;">
+					<section>
+						<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align:left; font-size: 30px; max-width: 80%;">
+							<h3 style="color:#333;">ПРОТИВОВИРУСНЫЙ ПРЕПАРАТ НОВОГО ПОКОЛЕНИЯ</h3>
+						</div>
+						<div style="margin-top: 100px; text-align: left;">
+							<ul class="ul-blue" style="font-size: 30px; max-width: 70%; float: left;">
+								<li style="margin-top: 10px;">Активизирует систему естественных киллеров</li>
+								<li style="margin-top: 10px;">Действует локально в очаге поражения</li>
+								<li style="margin-top: 10px;">Восстанавливает функциональную активность Т-клеточного звена иммунитета</li>
+							</ul>
+							<button  class="navigate-down enabled" style="background-color: #289afa;">Эффективность и переносимость</button>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div style="border-left: 5px solid #289afa; padding-left: 20px; margin-bottom: 75px; text-align: left; ">
+							<h3>ЭФФЕКТИВНОСТЬ</h3>
+						</div>
+						<div style="display: inline-block; width: 48%; vertical-align: top;font-size: 0.8em;">
+							<p style="font-weight: bold !important; color:#333;">Эффективен в лечении:</p>
+							<ul class="ul-blue" style="font-size: 0.9em;">
+								<li>герпетической инфекции</li>
+								<li>папилломавирусной инфекции</li>
+								<li>смешанных (вирусных + бактериальных) инфекций, в составе комплексной терапии</li>
+								<li>хронического вирусного гепатита В</li>
+							</ul>
+						</div>
+						<div style="display: inline-block; width: 48%; vertical-align: top;font-size: 0.8em; margin-left: 1%;">
+							<p style="font-weight: bold !important;">Не производит:</p>
+							<ul class="ul-blue" style="font-size: 0.9em;">
+								<li>токсического действия на организм</li>
+								<li>неспецифической активации иммунной системы (в отсутствие вируса)</li>
+							</ul>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align:left;">
+							<h3>ПЕРЕНОСИМОСТЬ</h3>
+						</div>
+						<div style="font-size: 0.8em; margin-top: 75px; margin-bottom: 75px; text-align:left;">
+							<p style="font-weight: bold !important;">Переносимость препарата:</p>
+							<ul class="ul-blue" style="font-size: 0.9em;">
+								<li>В редких случаях возможны легкое головокружение и слабость в течении нескольких часов после 1-й инъекции</li>
+								<li>В 1-2% случаев возможны дополнительные высыпания</li>
+							</ul>
+						</div>
+						<div style="font-size: 0.8em; text-align:left;">
+							<p>Эти эффекты являются маркером активизации иммунной системы в очаге инфекции (ВПГ, ВПЧ), что не является противопазанием для продолжения курса лечения, т.к. хроническая инфекция при применении эффективного препарата склонна к обострению.</p>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="images/3.png" style="text-align: left; color:#333;">
+						<div style="border-left: 5px solid #289afa; padding-left: 20px;">
+							<h3 style="color:#333;">ЭФФЕКТИВНОСТЬ ЛЕЧЕНИЯ ГВИ АЛЛОКИНОМ-АЛЬФА</h3>
+						</div>
+						<div style="display: inline-block; width: 49%; vertical-align: top;">
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">1</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.8em !important;">Сокращает период рецидива <span style="font-weight:bold;">в 2 раза</span></div>
+							</div>
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">2</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">К препарату Аллокин-Альфа <span style="font-weight:bold;">не развивается устойчивость вирусов</span></div>
+							</div>
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">3</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">После применения Аллокин-Альфа <span style="font-weight:bold;">у 20% пациентов рецидивы отсутствуют</span></div>
+							</div>
+						</div>
+						<div style="display: inline-block; width: 49%; vertical-align: top;">
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">4</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">Аллокин-Альфа <span style="font-weight:bold;">устраняет боль и жжение в течении нескольких часов</span> после первой инъекции</div>
+							</div>
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">5</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">Препарат Аллокин-Альфа <span style="font-weight:bold;">увеличивает период ремисии в среднем в 2 раза</span></div>
+							</div>
+						</div>
+					</section>
+					<section data-background="images/3.png" style="text-align: left; color:#333;">
+						<div style="border-left: 5px solid #289afa; padding-left: 20px;">
+							<h3 style="color:#333;">ЭФФЕКТИВНОСТЬ ЛЕЧЕНИЯ ПВИ АЛЛОКИНОМ-АЛЬФА</h3>
+						</div>
+						<div style="display: inline-block; width: 49%;">
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">1</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">При ВПЧ у пациентов <span style="font-weight:bold;">элиминация составляет 90%</span></div>
+							</div>
+							<div style="display:table;margin-top: 10px;">
+								<div style="display: table-cell; vertical-align: middle; font-size: 90px !important; width: 60px; padding-right: 40px; color: #289afa">2</div>
+								<div style="display: table-cell; vertical-align: middle; font-size: 0.6em !important;">Плоские бородавки и недавно появившиеся папилломы - <span style="font-weight:bold;">эффективность в 95% случаев</span></div>
+							</div>
+						</div>
+					</section>
+				</section>
+			</section>
+			<section data-background="images/9.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -290px;">
+							
+							<h3>Механизм действия</h3>
+							
+						</div>
+			</section>
+			<section data-background="images/9_1.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -310px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Вирус инфицирует клетку	
+							</p>
+							
+						</div>
+			</section>
+			<section data-background="images/11.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -310px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Вирус инфицирует клетку	
+							</p>
+						</div>
+			</section>
+			<section data-background="images/12.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -330px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Клетка защищает себя от уничтожения псевдомаркерами.<br>
+								Обманутая имунная система бездействует
+							</p>
+							
+						</div>
+			</section>
+			<section data-background="images/13.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -330px;">
+							
+							<h3>Механизм действия</h3>
+														<p style="color:#fff; font-size: 26px;">
+								Клетка защищает себя от уничтожения псевдомаркерами.<br>
+								Обманутая имунная система бездействует
+							</p>
+						</div>
+			</section>
+			<section data-background="images/14.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -330px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Аллокин-Альфа активирует натуральных киллеров.<br>
+								НК распознают инфицированную клетку и уничтожают её
+							</p>
+						</div>
+			</section>
+			<section data-background="images/15.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -330px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Аллокин-Альфа активирует натуральных киллеров.<br>
+								НК распознают инфицированную клетку и уничтожают её
+							</p>
+						</div>
+			</section>
+			<section data-background="images/16.png" style="text-align: left; color:#333;  ">
+			<div style="border-left: 5px solid #f26b40; padding-left: 20px; position:absolute; top: -330px;">
+							
+							<h3>Механизм действия</h3>
+							<p style="color:#fff; font-size: 26px;">
+								Аллокин-Альфа активирует натуральных киллеров.<br>
+								НК распознают инфицированную клетку и уничтожают её
+							</p>
+						</div>
+			</section>
+			<section data-background="images/4.png" style="text-align: left; color:#333;">
+			</section>
+			<section data-background="images/5.png" style="text-align: left; color:#333;">
+				<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left; position: absolute; top:-300px;">
+					<h3 style="color:#333;">НАУЧНЫЕ ЦЕНТРЫ</h3>
+					<p style="font-size: 25px;">
+						Где проводились исследования Аллокин-Альфа
+					</p>
+				</div>
+			</section>
+			<section data-background="images/6.png" style="text-align: left; color:#333;">
+				<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left; position: absolute; top:-160px;font-size:30px;">
+					<h3 style="color:#333;">НАУЧНЫЕ ЦЕНТРЫ</h3>
+					<p style="font-size: 25px;">
+						Где проводились исследования Аллокин-Альфа
+					</p>
+				</div>
+				<div style="position: absolute;right:7%;font-size: 22px;width: 500px;">
+					<ul>
+						<li>ГНЦ Институт иммунологии М3 РФ</li>
+						<li>Московский областной НИИ акушерства и гинекологии</li>
+						<li>РЦАГиП им.Кулакова</li>
+						<li>ММА им.Сеченова</li>
+						<li>Онкоцентр им.Блохина</li>
+						<li>Петрозаводский государственный университет, кафедра акушерства и гинекологии</li>
+					</ul>
+				</div>
+			</section>
+			<section data-background="images/7.png" style="text-align: left; color:#333;">
+				<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left; position: absolute; top:-200px;font-size:30px;">
+					<h3 style="color:#333;">НАУЧНЫЕ ЦЕНТРЫ</h3>
+					<p style="font-size: 25px;">
+						Где проводились исследования Аллокин-Альфа
+					</p>
+				</div>
+				<div style="font-size: 22px;width:500px;">
+					<ul>
+						<li>ЦНИКВИ М3 РФ</li>
+						<li>ГНЦ Институт иммунологии М3 РФ</li>
+						<li>Научно-исследовательский институт эпидемиологии и микробиологии им. Н.Ф.Гамалеи РАМН</li>
+					</ul>
+				</div>
+			</section>
+			<section>
+				<section data-background="images/8.png" style="text-align: left; color:#333;">
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left; position: absolute; top:-140px;font-size:30px;">
+						<h3 style="color:#333;">ПРИМЕНЕНИЕ АЛЛОКИНА-АЛЬФА</h3>
+						<p style="font-size: 25px;">
+							для лечения пациентов с тяжелыми интраэпителиальными неоплазиями шейки матки
+						</p>
+					</div>
+					<div style="position: absolute;top: 10px;left: 0;font-size: 22px;width:500px;">
+						<p style="padding-right: 40px;">Проведенное исследование по изменению показателей НС2-теста у больных CIN2-3/CIS под влиянием Аллокина-Альфа показало</p>
+						<div style="margin-top: 40px;color:#229bfa;padding:10px; width:400px;">
+							<p>снижение вирусной нагрузки у большинства пациенток на</p>
+							<p style="font-size: 60px;">71,9%</p>
+						</div>
+					</div>
+				</section>
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px;">
+						<h3>ДИЗАЙН ИССЛЕДОВАНИЯ</h3>
+					</div>
+					<div style="font-size: 18px;">
+						<div style="display: table;">
+							<div style="display: table-cell;width:80%;vertical-align: top;">
+								<p style="margin: 20px !important;">В исследование вошло 60 больных CIN2-3/CI с положительным НС2-тестом и вирусной нагрузкой более 20 RLU.</p>
+								<p style="margin: 20px !important;">Первая группа (32 пациентки) получали перед деструкцией зоны трансформации (конизацией) лечение препаратом Аллокин-Альфа.</p>
+								<p style="margin: 20px !important;">Вторая (контрольная) группа - 28 больных до деструкции не получали лечения иммуно-модуляторами. Через 40-60 дней всем больным повторно определяли вирусную нагрузку.</p>
+							</div>
+							<div style="display: table-cell;width:20%;vertical-align: top;">
+								<p style="font-weight: bold;margin:10px 0 !important;">Исследователи:</p>
+								<p>Короленкова Л.И., Брюзгин В.В.</p>
+								<p style="font-weight: bold;margin:10px 0 !important;">Место проведения:</p>
+								<p>РОНЦ им. Н.Н.Блохина РАМН, Москва, Россия</p>
+							</div>
+						</div>
+						<p style="color:#000;padding:10px 20px;background:#acedff;">ВЫВОДЫ</p>
+						<p style="margin: 20px !important;">Лечение Аллокином-Альфа (в количестве 6 инъекций подкожно через день) эффективно в предоперационной подготовке больных CIN2-3/CIS перед процедурой эксцизии зоны трансформации или конизации и приводит к снижению вирусной нагрузки у большинства больных. АллокинАльфа также может применяться для лечения больных продуктивной папилломавирусной инфекцией и CIN легкой степени с контролем вирусной нагрузки HC2-теста.</p>
+					</div>
+				</section>
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px; margin:20px 0 !important;">
+						<h3>РЕЗУЛЬТАТЫ</h3>
+					</div>
+					<div style="font-size: 18px;width:500px;">
+						<p style="font-weight: bold;margin: 20px 0 !important;">Снижение вирусной нагрузки Hybrid Capture 2 как результат снижения эффективной предэксцизионной терапии Аллокином-Альфа у больных CIN 2-3/преинвазивным раком шейки матки</p>
+						<p>Проведенное исследование по изменению показателей HC2-теста у больных CIN2-3/CIS под влиянием Аллокина-альфа показало снижение вирусной нагрузки у большинства пациенток (71,9%), отрицательным тест был у 9,4% больных.</p>
+						<p>При этом в группе без лечения вирусная нагрузка не снизилась ни у одной больной, у 26 из 28 отмечен ее рост</p>
+					</div>
+				</section>
+			</section>
+			<section>
+				<section data-background="images/8.png" style="text-align: left; color:#333;">
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left;font-size:30px;width: 700px;">
+						<h3 style="color: #333;">ЭФФЕКТИВНОСТЬ ПРЕПАРАТА</h3>
+						<p style="font-size: 25px;">Аллокин-Альфа в лечении пациентов с папилломавирусной инфекцией гениталий</p>
+					</div>
+					<div style="font-size: 18px;width:500px;padding: 20px;">
+						<p style="margin: 20px 0 !important;">Через 90 дней после проведенной комплексной терапии ДНК:</p>
+						<div style="margin-top: 70px; margin-bottom: 40px;color:#229bfa;padding:20px 0;">
+							<p>ВПЧ не обнаруживалась</p>
+							<p style="font-weight: bold;">у <span style="font-size: 40px;">86,6%</span> пациентов</p>
+						</div>
+						<p style="margin: 20px 0 !important;">После стандартного лечения хирургический лазером - всего у 50%</p>
+					</div>
+				</section>
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px;">
+						<h3>ДИЗАЙН ИССЛЕДОВАНИЯ</h3>
+					</div>
+					<div style="font-size: 18px;">
+						<div style="display: table;">
+							<div style="display: table-cell;width:70%;vertical-align: top;">
+								<p style="margin: 20px !important;">В исследование вошли 60 больных с папилломавирусной инфекцией гениталий.</p>
+								<p style="margin: 20px !important;"><span style="font-weight: bold;">В группе №1</span> 30 больным назначили Аллокин-Альфа, в дозе 1 мг подкожно через день, 6 инъекций на курс. После 3-й инъекции проводили лазерную деструкцию кондилом.</p>
+								<p style="margin: 20px !important;"><span style="font-weight: bold;">В группе №2</span> состоящей из 30 пациентов, терапия ПВИ проводилась хирургическим методом, при помощи лазерной деструкции.</p>
+							</div>
+							<div style="display: table-cell;width:30%;vertical-align: top;">
+								<p style="font-weight: bold;margin:10px 0 !important;">Исследователи:</p>
+								<p>Перламутров Ю.Н., Чернова Н.И.</p>
+								<p style="font-weight: bold;margin:10px 0 !important;">Место проведения:</p>
+								<p>Кафедра кожных и венерический болезней Московского Государственного Медико-Стоматологического Университета</p>
+							</div>
+						</div>
+						<p style="color:#000;padding:10px 20px;background:#acedff;margin:20px 0 !important;">ВЫВОДЫ</p>
+						<p style="margin: 20px !important;"><span style="font-weight: bold;">В группе №1</span> отмечено уменьшение количества вегетаций у 24 больных. Через 90 дней после комплексного лечения ДНК ВПЧ не обнаружили у 86,6% пациентов. Клиническую ремиссию отметили 93,3% пациентов.</p>
+						<p style="margin: 20px !important;"><span style="font-weight: bold;">В группе №2</span> после лечения хирургическим лазером ДНК ВПЧ не обнаружили у 50% пацикетов. Клиническую ремиссию отметили 66,6% пациентов.</p>
+					</div>
+				</section>
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px;">
+						<h3>Результаты</h3>
+						<p style="font-size: 25px">Результаты терапии</p>
+					</div>
+					<div style="font-size: 18px;">
+						<style>
+						.reveal table td{
+							color: #000;
+							font-size: 24px;
+						}
+							.therapyresult {
+								margin-top: 30px !important;
+								border: 2px solid #bce0f8 !important;
+								width: 100%;
+								height: 400px;
+							}
+							.therapyresult td {
+								text-align: center !important;
+								vertical-align: middle;
+								padding: 5px 20px !important;
+								border: 2px solid #2593ef !important;
+								background: #fff; 
+								color:#000;
+								font-size: 22px;
+							}
+							.therapyresult tr.blue-bg td {
+								background-color: #acedff;
+								color: #000;
+							}
+							.therapyresult td.white-bg {
+								background: #fff;
+								color: #2596f6;
+								text-align: left !important;
+								padding-right: 80px !important;
+							}
+							.therapyresult td.blue-border {
+								border: 2px solid #2596F6 !important;
+							}
+							.therapyresult tr:last-child td {
+								border-bottom: 0 !important;
+							}
+							.therapyresult td:last-child {
+								border-right: 0 !important;
+							}
+						</style>
+						<table class="therapyresult">
+							<tr class="blue-bg" style="">
+								<td class="blue-border" rowspan="3" style="text-align: left !important;">Результат лечения</td>
+								<td class="blue-border" colspan="4">Группа больных</td>
+							</tr>
+							<tr class="blue-bg" style="background-color: #acedff">
+								<td class="blue-border" colspan="2">1-я (n=30)</td>
+								<td class="blue-border" colspan="2">2-я (n=30)</td>
+							</tr>
+							<tr class="blue-bg" style="background-color: #acedff">
+								<td class="blue-border">абс.</td>
+								<td class="blue-border">%</td>
+								<td class="blue-border">абс.</td>
+								<td class="blue-border">%</td>
+							</tr>
+							<tr>
+								<td class="white-bg blue-border">Рецидив</td>
+								<td>2</td>
+								<td>6,6</td>
+								<td>10</td>
+								<td>33,3</td>
+							</tr>
+							<tr>
+								<td class="white-bg white-bg blue-border">Клиническая ремиссия</td>
+								<td>28</td>
+								<td>93,4</td>
+								<td>20</td>
+								<td>66,7</td>
+							</tr>
+							<tr>
+								<td class="white-bg blue-border">Лабораторная ремиссия</td>
+								<td>26</td>
+								<td>86,6</td>
+								<td>15</td>
+								<td>50</td>
+							</tr>
+							<tr>
+								<td class="white-bg blue-border">Без эффекта</td>
+								<td>0</td>
+								<td>0</td>
+								<td>7</td>
+								<td>23,3</td>
+							</tr>
+							<tr>
+								<td class="white-bg blue-border">Ухудшение</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+								<td>0</td>
+							</tr>
+						</table>
+					</div>
+				</section>
+			</section>
+			<section>
+			<section data-background="images/8.png" style="text-align: left; color:#333;">
+					<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left;font-size:30px;width: 700px; position: absolute; top:-100px;">
+						<h3 style="color: #333;">ПРЕГРАВИДАРНАЯ ПОДГОТОВКА</h3>
+						<p style="font-size: 25px;">пациенток с вирусными инфекциями</p>
+					</div>
+					<div style="font-size: 18px;width:500px;padding: 20px;">
+						<p style="margin-bottom: 50px 0 !important;">Контрольное обследование, проведенное через 3 мес, выявило полную элиминацию ВПЧ у 82,8% пациенток и отсутствие ВПГ у 79,8%. У группы с сочетанием ВПЧ и ВПГ эффективность составила 45%.</p>
+						<div style="margin-top: 70px; margin-bottom: 40px;color:#229bfa;padding:20px 0;">
+							<p>Беременность наступила</p>
+							<p style="font-weight: bold;">у <span style="font-size: 40px;">72 (62,6%)</span> женщин</p>
+						</div>
+						
+					</div>
+				</section>
+				
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px;">
+						<h3>ДИЗАЙН ИССЛЕДОВАНИЯ</h3>
+					</div>
+					<div style="font-size: 18px;">
+						<div style="display: table;">
+							<div style="display: table-cell;width:70%;vertical-align: top;">
+								<p style="margin: 20px !important;">В исследование вошли 115 пацинток репродуктивного возраста (18-38 лет) с привычным невынашиванием беременности различного генеза и хроническими вирусными инфекциями</p>
+								<p style="margin: 20px !important;font-weight: bold;">ВПЧ - 33 пациентки (28,7%)</p>
+								<p style="margin: 20px !important;font-weight: bold;">ВПГ - 57 пациенток (49,6%)</p>
+								<p style="margin: 20px !important;font-weight: bold;">ВПГ и ВПЧ - 25 пациенток (21,7%)</p>
+								<p style="margin: 20px !important;">Всем пациенткам в первый цикл прегравидарной подготовки однократно проводили монотерапию терапию препаратом Аллокин-Альфа по стандартной схеме (1,0 мл подкожно через день, на курс 6 инъекций)</p>
+							</div>
+							<div style="display: table-cell;width:30%;vertical-align: top;">
+								<p style="font-weight: bold;margin:10px 0 !important;">Исследователи:</p>
+								<p>Соснова Е.А.</p>
+								<p style="font-weight: bold;margin:10px 0 !important;">Место проведения:</p>
+								<p>Первый московский государственный медицинский университет им. И.М.Сеченова</p>
+							</div>
+						</div>
+						<p style="color:#000;padding:10px 20px;background:#acedff;margin:20px 0 !important;">ВЫВОДЫ</p>
+						<p style="margin: 20px !important;">Однократный курс лечения препаратом Аллокин-Альфа в виде монотерапии оказывает выраженный позитивный эффект на течение хронического вирусного процесса. Назначение препарата следует считать оправданным при проведении комплексной прегравидарной подготовки у женщин с вирусными инфекциями и привычным невынашиванием беременности.</p>
+					</div>
+				</section>
+				<section data-background="#2493ef" style="text-align: left; color:#eef6f7;">
+					<div style="border-left: 5px solid #f26b40; padding-left: 20px; text-align: left;font-size:30px;">
+						<h3>РЕЗУЛЬТАТЫ</h3>
+					</div>
+					<div style="font-size: 18px;width:500px;margin-top: 20px;">
+						<p>Контрольное обследование, проведенное через 3 мес, выявило полную элиминацию ВПЧ у 82,8% пациенток и отсутствие ВПГ у 79,8%. У группы с сочетанием ВПЧ и ВПГ эффективность состовила 45%.</p>
+						<p>Беременность наступила у 72 (62,6%) женщин.</p>
+						<p style="font-weight: bold;margin: 20px 0 !important;">В течение 1 года ни у одной пациентки не было зарегистрировано эпизодов рецидива вирусной инфекции.</p>
+					</div>
+				</section>
+			</section>
+			<section data-background="images/2.png" style="text-align: left; color:#333;">
+				<div style="border-left: 5px solid #289afa; padding-left: 20px; text-align: left;font-size:30px;">
+					<h3 style="color:#333;">ЛЕЧЕНИЕ ВПЧ АЛЛОКИНОМ-АЛЬФА</h3>
+					<p style="font-size: 25px">Схемы лечения</p>
+				</div>
+				
+				<div class="t" style="font-size: 18px;display: table; position: relative; width:100%;margin-top: 20px; ">
+					<style>
+						.t:before{
+							content: "";
+							position:absolute;
+							left:0;
+							top:0;
+							height: 100%;
+							width: 100%;
+							background: rgba(255, 255, 255, 0.95);
+							filter: blur(10px);
+							z-index: -1;
+						}
+						.healingtabs {
+							width: 500px;
+							display: table-cell;
+							vertical-align: top;
+						}
+						.healingcontent {
+							width: 50%;
+						}
+						.healingcontent div {
+							display: none;
+						}
+						.healingtabs, .healingtabs li::before {
+							list-style-type: none !important;
+							content: "";
+						}
+						.healingtabs li div div {
+							padding: 10px 20px;
+							vertical-align: middle;
+						}
+						.healingtabs button {
+							transition: 0.2s;
+							position: relative;
+							width: 70px;
+							height: 70px;
+							border-radius: 50%;
+							background: #2892fa;
+							padding: 0 !important;
+							margin: 0 !important;
+							box-shadow: 0 0 10px black;
+						}
+							.healingtabs button:hover {
+							box-shadow: 0 0 0 black;
+							background: #8ec6f7;
+						}
+						.healingtabs button.active, .healingtabs button:active {
+							background: #8ec6f7;
+							box-shadow: inset 0 0 10px black;
+						}
+						.healingtabs .crossicon {
+							transition: 0.2s;
+							position: absolute;
+							top: 24px;
+							left: 23px;
+							width: 24px;
+							height: 24px;
+							box-sizing: border-box;
+							transform: rotate(45deg);
+						}
+						.healingtabs button.active .crossicon, .healingtabs button:hover .crossicon {
+							transform: rotate(0deg);
+						}
+						.healingtabs .crossicon:before, .healingtabs .crossicon:after {
+							position: absolute;
+							top: 0;
+							left: 10px;
+							content: ' ';
+							height: 25px;
+							width: 2px;
+							background-color: #fff;
+						}
+						.healingtabs .crossicon:before {
+							transform: rotate(45deg);
+						}
+						.healingtabs .crossicon:after {
+							transform: rotate(-45deg);
+						}
+					</style>
+					<ul class="healingtabs">
+						<li>
+							<div style="display:table;">
+								<div style="display:table-cell;">
+									<button class="tab1">
+									<span class="crossicon"></span>
+									</button>
+								</div>
+								<div style="display:table-cell;">
+									<span>Аллокин-Альфа №6</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div style="display:table;">
+								<div style="display:table-cell;">
+									<button class="tab2">
+									<span class="crossicon"></span>
+									</button>
+								</div>
+								<div style="display:table-cell;">
+									<span>Аллокин-Альфа №6 и деструктивные методы</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div style="display:table;">
+								<div style="display:table-cell;">
+									<button class="tab3">
+									<span class="crossicon"></span>
+									</button>
+								</div>
+								<div style="display:table-cell;">
+									<span>Монотерапия Аллокином-Альфа №6</span>
+								</div>
+							</div>
+						</li>
+						<li>
+							<div style="display:table;">
+								<div style="display:table-cell;">
+									<button class="tab4">
+									<span class="crossicon"></span>
+									</button>
+								</div>
+								<div style="display:table-cell;">
+									<span>Аллокин-Альфа №6 и эпиген-спрей</span>
+								</div>
+							</div>
+						</li>
+					</ul>
+					<div class="healingcontent" style="display:table-cell;vertical-align: top;">
+						<div class="healingtab1">
+							<p style="font-weight: bold;margin: 20px 0 !important;">Использование схемы: Аллокин-Альфа №6</p>
+							<p>При обнаружении ВПЧ только в ПЦР-контроле (при отсутствии внешних проявлений папилломавирусной инфекции, т.е. латентная форма). Препарат вводят подкожно.</p>
+						</div>
+						<div class="healingtab2">
+							<p style="font-weight: bold;margin: 20px 0 !important;">Использование схемы: Аллокин-Альфа №6 и деструктивные методы</p>
+							<p>При наличии внешних проявлений ВПЧ (ЭШМ, кондиломы, папилломы и т.д.).</p>
+							<p>Препарат вводят подкожно.</p>
+						</div>
+						<div class="healingtab3">
+							<p style="font-weight: bold;margin: 20px 0 !important;">Использование схемы: Монотерапия Аллокином-Альфа №6</p>
+							<p>Эффективна в отношении внешних проявлений ВПЧ (ЭШМ, папилломы, кондиломы, плоские бородавки, в т.ч. подошвенные) только в том случае, если они возникли не ранее, чем за 6 месяцев до начала курса лечения.</p>
+							<p>Препарат вводят подкожно.</p>
+						</div>
+						<div class="healingtab4">
+							<p style="font-weight: bold;margin: 20px 0 !important;">Использование схемы: Аллокин-Альфа №6 и эпиген-спрей</p>
+							<p>При наличии внешних проявлений ВПЧ и отсутствии возможности использования деструктивных методов.</p>
+							<p>Препарат вводят подкожно.</p>
+						</div>
+					</div>
+					<script>
+						$('.healingtabs button').click(function(){
+							$('.healingtabs button.active').removeClass('active');
+							$('.healingcontent div').hide();
+							$(this).addClass('active');
+							$('.healing' + $(this).attr('class').split(' ')[0]).show();
+						});
+					</script>
+				</div>
+			</section>
+			<section data-background="images/10.png" style="text-align: left; color:#333;">
+				<div >
+					<div style="font-size: 18px;border-left: 5px solid #289afa; padding-left: 20px; text-align:left; color:#333;">
+						<h1 style="font-weight: bold; color:333;">Скольким пациентам</h1>
+						<p>Вы готовы выписать рецепт Аллокин-Альфа?</p>
+					</div>
+					<div class="range-slider" style="width: 500px;">
+						<input class="range-slider__range" type="range" value="30" min="0" max="100">
+						<span class="range-slider__value">0</span>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			dependencies: [
+				{ src: 'plugin/markdown/marked.js' },
+				{ src: 'plugin/markdown/markdown.js' },
+				{ src: 'plugin/notes/notes.js', async: true },
+								{ src: 'plugin/chart/Chart.min.js' },
+				{ src: 'plugin/chart/csv2chart.js' },
+				{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+			],
+			chart: {
+	defaults: {
+		global: {
+			title: { fontColor: "#FFF" },
+			legend: {
+				labels: { fontColor: "#FFF" },
+			},
+		},
+		scale: {
+			scaleLabel: { fontColor: "#FFF" },
+			gridLines: { color: "#FFF", zeroLineColor: "#FFF" },
+			ticks: { fontColor: "#FFF" },
+		}
+	},
+	line: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ], "borderDash": [ [5,10], [0,0] ]},
+	bar: { backgroundColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]},
+	pie: { backgroundColor: [ ["#5fa55a" , "#01b4bc", "#f6d51f", "#fa8925", "#fa5457"] ]},
+	radar: { borderColor: [ "rgba(20,220,220,.8)" , "rgba(220,120,120,.8)", "rgba(20,120,220,.8)" ]},
+	},
+		});
+		
+		
+	var rangeSlider = function(){
+	var slider = $('.range-slider'),
+	range = $('.range-slider__range'),
+	value = $('.range-slider__value');
+	
+	slider.each(function(){
+	value.each(function(){
+	var value = $(this).prev().attr('value');
+	$(this).html(value);
+	});
+	range.on('input', function(){
+	$(this).next(value).html(this.value);
+	});
+	});
+	};
+	rangeSlider();
+	</script>
+	
+	
+</body>
+</html>
+<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>

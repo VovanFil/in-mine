@@ -1,0 +1,178 @@
+{{ header }}
+
+<div class="layer-category full-width col-md-12 " style="background: #f2f2f2;" >
+    <div class="layered-navigation-block"></div>
+    <div class="ajax-loader">
+        <img src="{{ module_oclayerednavigation_loader_img }}" alt="" />
+    </div>
+    
+    <div class="row">{{ column_left }}
+        {% if column_left and column_right %}
+            {% set class = 'col-md-6 col-sm-12' %}
+        {% elseif column_left or column_right %}
+            {% set class = 'col-md-9 col-sm-12' %}
+        {% else %}
+            {% set class = 'col-sm-12' %}
+        {% endif %}
+        <div id="content" class="{{ class }}">{{ content_top }}
+			<div class="category-info">
+            <h2 class="category-name">{{ heading_title }}</h2>
+            {% if thumb or description %}
+				{% if thumb %}
+					<div class="catgory-thumb"><img src="{{ thumb }}" alt="{{ heading_title }}" title="{{ heading_title }}" class="img-thumbnail" /></div>
+				{% endif %}
+				{% if description %}
+					{{ description }}
+				{% endif %}
+            {% endif %}
+			</div>
+            {% if categories %}
+                <h3 class="refine-category">{{ text_refine }}</h3>
+
+                <ul>
+                    {% for category in categories %}
+                        <li><a href="{{ category.href }}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+
+            {% endif %}
+            <div class="custom-category">
+                {% if products %}
+               <!-- <div class="category-compare"><a href="{{ compare }}" id="compare-total">{{ text_compare }}</a></div>-->
+				
+                <div class="custom-products" style="padding: 5px;">			
+			<style>
+				.grid-item { width: 33.33333333333%; padding: 2px;}
+			
+			</style>
+		
+<div class="grid" style=" margin-bottom: 40px; ">
+	{% for product in products %}
+   <div class="grid-item {% if product.manufacturer %} {{ product.manufacturer }} {% endif %}" >
+
+                        <div class="product-thumb">
+							<div class="item-inner">
+								<div class="image">
+									<a href="{{ product.href }}" >
+										<div class="imgb" style="background: url('{{ product.thumb }}'); background-size: cover; background-position: center;"></div>
+										<img style="display: none;" src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
+									</a>
+										
+									<div class="qv-button-container">
+										<!--<button class="btn-quickview" type="button" data-toggle="tooltip" title="{{ button_quickview }}" onclick="ocquickview.ajaxView('{{ product.href }}')"><span>{{ button_quickview }}</span></button>
+										--><div class="morecats"><i class="ion-eye"></i></div>
+									
+									</div>
+									<!-- {% if product.special %}
+										<div class="label-product label_sale">{{ text_label_sale }}</div>
+									{% endif %}
+									{% if product.is_new %}
+										<div class="label-product label_new">{{ text_label_new }}</div>
+									{% endif %} -->
+								</div>
+								<div class="caption">
+									<a style="height: 100%; width: 100%;" href="{{ product.href }}" ></a>
+									{% if product.manufacturer %}
+									<p class="manufacture-product">
+										<a href="{{ product.manufacturers }}">{{ product.manufacturer }}</a>
+									</p>
+									{% endif %}
+									<h4 class="product-name"><a href="{{ product.href }}">{{ product.name }}</a></h4>   
+									{% if product.rating %}
+										<div class="ratings">
+											<div class="rating-box">
+											{% for i in 1..5 %}
+												{% if product.rating == i %}
+												{% set class_r = "rating"~i %}
+												<div class="{{ class_r }}">rating</div>
+												{% endif %}
+											{% endfor %}
+											</div>
+										</div>					
+									{% endif %}
+									{% if product.price %}
+										<p class="price">
+										<!-- {% if not product.special %}
+											{{ product.price }}
+										{% else %} 
+											<span class="price-old">{{ product.price }}</span><span class="price-new">{{ product.special }}</span>						  
+										{% endif %}-->
+										{% if product.tax %}
+											<span class="price-tax">{{ text_tax }} {{ product.tax }}</span>
+										{% endif %}
+										</p>
+									{% endif %}
+									
+								</div>
+								</a>
+							</div>
+                        </div>
+
+  </div>
+					  {% endfor %}
+					</div>		
+                    {% for product in products %}
+                   
+                    {% endfor %}
+                </div>
+                <div class="row toolbar4">
+                    <div class="col-sm-6">{{ pagination }}</div>
+                    <div class="col-sm-6 text-right">{{ results }}</div>
+                </div>
+                {% endif %}
+                {% if not categories and not products %}
+                    <p class="text_empty">{{ text_empty }}</p>
+                    <div class="buttons">
+                        <div class="pull-right"><a href="{{ continue }}" class="btn btn-primary">{{ button_continue }}</a></div>
+                    </div>
+                {% endif %}
+            </div>
+            {{ content_bottom }}</div>
+        {{ column_right }}</div>
+</div>
+<script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+<script>
+
+function fixHeight($gridA) {
+    var inter = setInterval(function(){
+        var width = $gridA.find("img").innerWidth();
+        if (width) {
+            clearInterval(inter);
+            var height = width/16*9;
+            $gridA.css('height', height);
+            $gridA.find(".imgb").css('height', height);
+
+            $('.grid').isotope({
+                itemSelector: '.grid-item',
+                layoutMode: 'fitRows',
+                filter: '*'
+            });
+		}
+	});
+}
+function fixHeightAllA() {
+    $('.grid a').each(function () {
+        fixHeight($(this));
+    });
+}
+
+$( window ).resize(function() {
+    fixHeightAllA();
+});
+
+$( window ).ready(function() {
+    fixHeightAllA();
+});
+
+$('.grid').isotope({
+		itemSelector: '.grid-item', 
+		layoutMode: 'fitRows',
+		filter: '*'
+	});
+$('.filter-button-group').on( 'click', 'button', function() {
+  var filterValue = $(this).attr('data-filter');
+  $('.grid').isotope({ filter: filterValue,layoutMode: 'fitRows'});
+});
+</script>
+{{ footer }}

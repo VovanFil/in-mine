@@ -1,0 +1,117 @@
+<div class="banner7" >
+	<div class= "oc-banner7-container">
+		<div class="flexslider oc-nivoslider">
+			<div class="oc-loading"></div>
+			<div id="oc-inivoslider1" class="nivoSlider">
+
+                {% set config = slide_setting[0] %}
+                {% set i=1 %}
+                {% for s in ocslideshows %}
+                    {% set i=i+1 %}
+					<img style="display: none;" src="{{ s['image'] }}" alt="" title="#banner7-caption{{ i }}"  />
+                {% endfor %}
+
+			</div>
+
+            {% set i=1 %}
+            {% for s in ocslideshows %}
+			
+				{% set class = "" %}
+				{% if s['type'] == 1 %}
+					{% set class = 'slider-1' %}
+				{% endif %}
+				
+				{% if s['type'] == 2 %}
+					{% set class = 'slider-2' %}
+				{% endif %}
+				
+				{% if s['type'] == 3 %}
+					{% set class = 'slider-3' %}
+				{% endif %}
+				
+                {% set i=i+1 %}
+				<div id="banner7-caption{{ i }}" class="banner7-caption nivo-html-caption nivo-caption move-slides-effect" data-class="slide-movetype{{ s['type'] }}">
+					<div class="timeloading"></div>
+					<div class="banner7-content {{ class }}">
+						<div class="text-content">
+							<div class="banner7-des" style="display: inline-block;">
+								{{ s['description'] }}
+							</div>						
+							<div style="display: inline-block;">
+							{%  if s['title'] and s['title'] != ""  %}
+								<h1 class="title1">{{ s['title'] }}</h1>
+							{% endif %}														
+							{%  if s['sub_title'] and s['sub_title'] != "" %}
+								<h2 class="sub-title">{{ s['sub_title'] }}</h2>
+							{% endif %}	
+							</div>
+							
+							{% if s['link'] %}
+								
+									<a class="btn-ripple animated fadeInDown" href="{{ s['link'] }}" title="{{ text_readmore }}"><span>{{ text_readmore }}</span><i class="material-icons fas fa-arrow-circle-right"></i></a>
+							
+							{% endif %}
+						</div>
+					</div>
+				</div>
+            {% endfor %}
+			<script type="text/javascript">
+				$('.pt_custommenu').addClass('custommenu-homepage');
+                var imgwidth;
+                var imgheight;
+				function calcImg() {
+				    if (imgheight !== undefined && imgwidth !== undefined) {
+				        var banner = $('.banner7');
+                        var vw = banner.width();
+                        var vh = banner.height();
+                        var aspectimg = imgwidth/imgheight;
+                        var aspectvp = vw/vh;
+                        return aspectimg > aspectvp;
+					}
+				}
+				function applyConstr() {
+				    if (calcImg()) {
+                        $( '#oc-inivoslider1' ).addClass('slider-overflow-right');
+					} else {
+                        $( '#oc-inivoslider1' ).removeClass('slider-overflow-right');
+					}
+                    /*$('.nivo-main-image').css('height', ci.hn || '100%');
+                    $('.nivo-slice[name="0"]').css('height', ci.hn || '100%');
+                    $('.nivo-slice[name="0"] img').css('height', ci.hn || '100%');*/
+				}
+                $(window).load(function() {
+                    var elimg = $( '#oc-inivoslider1 img' );
+                    imgheight = elimg.height();
+                    imgwidth = elimg.width();
+                    $('#oc-inivoslider1').nivoSlider({
+                        effect:  {% if config['effect'] %}  "{{ config['effect'] | trim }}" {% else %}   'random'  {% endif %} ,
+                        slices: 15,
+                        boxCols: 8,
+                        boxRows: 4,
+                        manualAdvance: {% if config['auto'] and config['auto'] == 1 %} false {% else %}   true  {% endif %} ,
+                        animSpeed: 500,
+                        pauseTime: {% if config['delay'] %}  {{ config['delay'] }} {% else %}   3000  {% endif %} ,
+                        startSlide: 0,
+                        controlNav:  {% if config['contrl'] and config['contrl'] == 1 %} true {% else %}   false  {% endif %} ,
+                        directionNav:  true ,
+                        controlNavThumbs: false,
+                        pauseOnHover:  {% if config['hover'] and config['hover'] == 1 %} true {% else %}   false  {% endif %} ,
+                        prevText: '<i class="ion-chevron-left"></i>',
+						nextText: '<i class="ion-chevron-right"></i>',
+						afterLoad: function(){
+							$('.oc-loading').css("display","none");
+							$('.timeloading').css('animation-duration',"{% if config['delay'] %} {{ config['delay']~'ms' }} {% else %} 3000 {% endif %}");
+						},
+                        afterChange: function() {
+                            applyConstr();
+						},
+                    });
+                    applyConstr();
+                    window.addEventListener('resize', function() {
+                        applyConstr();
+                    });
+                });
+			</script>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,481 @@
+{{ header }}
+<style>
+    @media screen and (min-width: 768px) {
+        .checkout-page__wrapper {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+                -ms-flex-wrap: wrap;
+                    flex-wrap: wrap;
+        }
+
+        .checkout-page__block {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -webkit-flex-direction: column;
+                -ms-flex-direction: column;
+                    flex-direction: column;
+        }
+
+        .checkout-page__block > .panel {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1 1 auto;
+                -ms-flex: 1 1 auto;
+                    flex: 1 1 auto;
+        }
+    }
+	
+	.panel-primary>.panel-heading{
+		    color: #ffffff;
+    background-color: #d2b87e;
+		border:0;
+	}
+	.panel-primary {
+ 
+    border: 0;
+}
+</style>
+<div class="container">
+    <ul class="breadcrumb">
+      
+		{% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+		{% endfor %}
+    </ul>
+    {% if error_warning %}
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
+        {{ error_warning }}
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    <div class="row">
+        {{ column_left }}
+		
+        {% if column_left and column_right %}
+			{% set class = 'col-sm-6' %}
+        {% elseif column_left  or  column_right %}
+			{% set class = 'col-sm-9' %}
+        {% else %}
+			{% set class = 'col-sm-12' %}
+		{% endif %}
+        <div id="content" class="{{ class }}">
+            <div id="checkout-page">
+                {{ content_top }}
+                <h1>{{ heading_title }}</h1>
+                <br>
+                <div class="row checkout-page__wrapper">
+                    {% set tmp_width = 0 %}
+                  
+					{% for block in blocks %}
+						<div class="col-sm-{{ block['width'] }} checkout-page__block" id="{{ block['id'] }}">{{ block['html'] }}</div>
+					{% endfor %}
+					
+					{% set tmp_width = tmp_width + block['width'] %}
+					{% if tmp_width >= 12 %}
+						{% set tmp_width = 0 %}
+						<div class="clearfix"></div>
+                    {% endif %}
+                   
+                </div>
+                {% if text_agree %}
+                <div class="checkbox" style="margin-bottom: 18px;">
+                    <label>
+                        {% if text_agree_default %}
+                        <input type="checkbox" name="agree" value="1" checked>
+                        {% else %}
+                        <input type="checkbox" name="agree" value="1">
+                        {% endif %}
+                        <span>{{ text_agree }}</span>
+                    </label>
+                </div>
+                {% endif %}
+                <div class="row">
+                    <div class="col-sm-12">
+					
+					<button class="btn-ripple animated fadeInDown" id="checkout-confirm" data-loading-text="Загрузка..." type="button" ><span>{{ order_button_text }}</span><i class="material-icons fas fa-shopping-cart"></i></button>
+					</div>
+                </div>
+            </div>
+            {{ content_bottom }}
+        </div>
+        {{ column_right }}
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" id="confirm-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{ text_confirm_order }}</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <div id="confirm"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script><!--
+    $('#checkout-confirm').click(function(event) {
+        $('#checkout-confirm').button('loading');
+        event.preventDefault();
+        saveSession();
+    });
+
+     function confirm() {
+        $.ajax({
+            url: 'index.php?route=checkout/confirm',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(html) {
+                $('#confirm').html(html);
+				{% if confirm %}
+                $('#confirm-modal').modal('show');
+				{% else %}
+                $('{{ confirm_trigger }}').trigger('click');
+				{% endif %}
+
+                $('#checkout-confirm').button('reset');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function removeProduct(key) {
+        $.ajax({
+            url: 'index.php?route=checkout/cart/remove',
+            type: 'post',
+            data: 'key=' + key,
+            dataType: 'json',
+            beforeSend: function() {
+                $('#cart > button').button('loading');
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#cart > button').button('reset');
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(json) {
+                // Need to set timeout otherwise it wont update the total
+                setTimeout(function () {
+                    $('#cart > button').html('<i class="fa fa-shopping-cart"></i><span id="cart-total">' + json['total'] + '</span>');
+                }, 100);
+
+                var now_location = String(document.location.pathname);
+
+                if ((now_location == '/cart/')  ||  (now_location == '/checkout/')  ||  (getURLVar('route') == 'checkout/cart')  ||  (getURLVar('route') == 'checkout/checkout')) {
+                    updateCart(true);
+                } else {
+                    $('#cart > ul').load('index.php?route=common/cart/info ul li');
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function moreProduct(key) {
+        $('[name="quantity[' + key + ']"]').val(parseInt($('[name="quantity[' + key + ']"]').val()) + 1);
+        $('[name="quantity[' + key + ']"]').trigger('change');
+    }
+
+    function lessProduct(key) {
+        $('[name="quantity[' + key + ']"]').val(parseInt($('[name="quantity[' + key + ']"]').val()) - 1);
+        $('[name="quantity[' + key + ']"]').trigger('change');
+    }
+
+    function saveSession() {
+        $form = $('#checkout-page');
+
+        $.ajax({
+            url: 'index.php?route=checkout/ez_checkout/save_session/',
+            type: 'post',
+            data:  $('#content *:input').serialize(),
+            dataType: 'json',
+            beforeSend: function() {
+                //$('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                //$('#checkout-confirm').button('reset');
+            },
+            success: function(json) {
+                $form.find('.alert').remove();
+                $form.find('.form-group').removeClass('has-error');
+                $form.find('.text-danger').remove();
+
+                if (json['error']) {
+
+                    if (json['error']['warning']) {
+                        $('#checkout-confirm').before('<div class="alert alert-warning">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                    }
+
+                    for (i in json['error']) {
+                        console.log("Error in field: #input-" + i.replace(/_/g, '-') + "!");
+                        var element = $('#input-' + i.replace(/_/g, '-'));
+                        $(element).parent('.form-group').addClass('has-error');
+                        if ($(element).parent().hasClass('input-group')) {
+                            $(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+                        } else {
+                            $(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+                        }
+                    }
+
+                    if ($(".has-error").length) {
+                        $('html, body').animate({
+                            scrollTop: $(".has-error").first().offset().top
+                        }, 400);
+                    }
+
+                    $('#checkout-confirm').button('reset');
+                } else {
+                    confirm();
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updateSession(data, $form, $trigger) {
+        $.ajax({
+            url: 'index.php?route=checkout/ez_checkout/update_session/',
+            type: 'post',
+            data:  data,
+            dataType: 'json',
+            beforeSend: function() {
+                //$('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                //$('#checkout-confirm').button('reset');
+            },
+            success: function(json) {
+                $form.find('.alert').remove();
+                $trigger.parents('.form-group').removeClass('has-error');
+                $trigger.siblings('.text-danger').remove();
+
+                if (json['error']) {
+
+                    if (json['error']['warning']) {
+                        $form.prepend('<div class="alert alert-warning">' + json['error']['warning'] + '<button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+                    }
+
+                    for (i in json['error']) {
+                        console.log("Error in field: #input-" + i.replace(/_/g, '-') + "!");
+                        var element = $('#input-' + i.replace(/_/g, '-'));
+                        $(element).parent('.form-group').addClass('has-error');
+                        if ($(element).parent().hasClass('input-group')) {
+                            $(element).parent().after('<div class="text-danger">' + json['error'][i] + '</div>');
+                        } else {
+                            $(element).after('<div class="text-danger">' + json['error'][i] + '</div>');
+                        }
+                    }
+                } else {
+                    if (json['save_field']) {
+                        console.log("Field \"" + json['save_field'] + "\" saved");
+                    } else {
+                        console.log("Nothing saved!");
+                    }
+
+                    if ($trigger.is('[name="payment_address[shipping_address_status]"]')) {
+                        updateShippingAddress(!$trigger.is(':checked'));
+                        updateShippingMethod();
+                    } else if ($trigger.is('[name="payment_address[country_id]"]')  ||   $trigger.is('[name="payment_address[zone_id]"]')) {
+                        updatePaymentMethod();
+
+                        if ($('[name="payment_address[shipping_address_status]"]').is(':checked')) {
+                            updateShippingMethod();
+                        }
+                    } else if ($trigger.is('[name="shipping_address[country_id]"]')  ||  $trigger.is('[name="shipping_address[zone_id]"]')) {
+                        updateShippingMethod();
+
+                        if (!$('#payment-address-form').length) {
+                            updatePaymentMethod();
+                        }
+                    } else if ($trigger.is('[name="shipping_method"]')) {
+                        updateCart(false);
+                    }
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updateZone($country, $zone, country_id, curr_zone) {
+        $.ajax({
+            url: 'index.php?route=checkout/checkout/country&country_id=' + country_id,
+            dataType: 'json',
+            beforeSend: function() {
+                $country.after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('.fa-spin').remove();
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(json) {
+                html = '<option value="0">{{ text_select }}</option>';
+
+                if (json['zone']  &&  json['zone'] != '') {
+                    for (i = 0; i < json['zone'].length; i++) {
+                        html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+                        if (json['zone'][i]['zone_id'] == curr_zone) {
+                            html += ' selected="selected"';
+                        }
+                        html += '>' + json['zone'][i]['name'] + '</option>';
+                    }
+                }
+                $zone.html(html);
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updateShippingAddress(status) {
+        if (status) {
+            $.ajax({
+                url: 'index.php?route=checkout/ez_shipping_address',
+                dataType: 'html',
+                beforeSend: function() {
+                    $('#checkout-confirm').button('loading');
+                },
+                complete: function() {
+                    $('#checkout-confirm').button('reset');
+                },
+                success: function(html) {
+                    $('#shipping-address').html(html);
+                    console.log('Shipping address form loaded!');
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                }
+            });
+        } else {
+            $('#shipping-address').html('');
+            console.log('Shipping address form removed!');
+        }
+    }
+
+    function updateCart(full_update) {
+        $.ajax({
+            url: 'index.php?route=checkout/ez_cart',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(html) {
+				
+                $('#cart-checkout').html(html);
+                console.log('Cart loaded!');
+
+                if ($('#cart').length) {
+                    $('#cart').load('index.php?route=common/cart/info #cart');
+                }
+
+                if (full_update) {
+                    updatePaymentAddress();
+                    updatePaymentMethod();
+                    updateShippingMethod();
+
+                    if ($('[name="payment_address[shipping_address_status]"]').length) {
+                        if (!$('[name="payment_address[shipping_address_status]"]').prop('checked')) {
+                            var status = true;
+                        } else {
+                            var status = false;
+                        }
+                    } else {
+                        var status = true;
+                    }
+
+                    updateShippingAddress(status);
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updatePaymentAddress() {
+        $.ajax({
+            url: 'index.php?route=checkout/ez_payment_address',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(html) {
+                $('#payment-address').html(html);
+                console.log('Payment address loaded!');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updatePaymentMethod() {
+        $.ajax({
+            url: 'index.php?route=checkout/ez_payment_method',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(html) {
+                $('#payment-method').html(html);
+                console.log('Payment method form loaded!');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+
+    function updateShippingMethod() {
+        $.ajax({
+            url: 'index.php?route=checkout/ez_shipping_method',
+            dataType: 'html',
+            beforeSend: function() {
+                $('#checkout-confirm').button('loading');
+            },
+            complete: function() {
+                $('#checkout-confirm').button('reset');
+            },
+            success: function(html) {
+                $('#shipping-method').html(html);
+                console.log('Shipping method form loaded!');
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+            }
+        });
+    }
+//--></script>
+{{ footer }}
